@@ -6,6 +6,7 @@
 
 enum Type {
 	Identifier, //type (const char*)
+	String, //type (const char*)
 	
 };
 class Token {
@@ -18,16 +19,19 @@ public:
 
 class Tokenizer {
 public:
-	Tokenizer(const char* code);
+	Tokenizer(const char* location);
+
+	void AddToken(Type type, void* data);
 
 	bool IsIdentifierCharacter(char c, bool status);
 
 	std::vector<Token> tokens;
 private:
 	//File
-	const char* code = nullptr;
+	std::string code;
 
 	uint32_t file_size = 0;
+	uint32_t line = 1;
 private:
 	//For character iteration
 	uint32_t character_index = 0;

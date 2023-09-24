@@ -1,3 +1,3 @@
 ﻿  Tokenizer.cpp
-C:\Projects\Compilers\C++Converter\Src\Tokenizer.cpp(8,20): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+C:\Projects\Compilers\C++Converter\Src\Tokenizer.cpp(20,23): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
   C++Converter.vcxproj -> C:\Projects\Compilers\x64\Debug\C++Converter.exe
