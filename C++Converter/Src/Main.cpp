@@ -1,5 +1,9 @@
 #include <iostream>
 
+#include "Tokenizer.h"
+
+const char* code = "Iden balls";
+
 int main(int argc, char** argv) {
-	std::cout << "Hello World" << std::endl;
+	Tokenizer t(code);
 }
