@@ -7,12 +7,15 @@
 enum Type {
 	Identifier, //type (const char*)
 	String, //type (const char*)
+	Int,
 	
 };
 class Token {
 public:
-	void** data;
-	Token(void** data) {
+	Type type;
+	void* data;
+	Token(Type type, void* data) {
+		this->type = type;
 		this->data = data;
 	}
 };
@@ -21,11 +24,12 @@ class Tokenizer {
 public:
 	Tokenizer(const char* location);
 
+	void ReadTokens();
 	void AddToken(Type type, void* data);
 
 	bool IsIdentifierCharacter(char c, bool status);
 
-	std::vector<Token> tokens;
+	std::vector<Token*> tokens;
 private:
 	//File
 	std::string code;

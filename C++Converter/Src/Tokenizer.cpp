@@ -4,6 +4,8 @@
 #include <string>
 #include <fstream>
 
+#define _CRT_SECURE_NO_WARNINGS
+
 Tokenizer::Tokenizer(const char* location) {
 	//Reading File
 	std::ifstream f(location, std::ios::in);
@@ -36,7 +38,9 @@ Tokenizer::Tokenizer(const char* location) {
 				break;
 			}
 
-			std::cout << identifier << std::endl;
+			char* p2 = new char[identifier.size()];
+			strcpy_s(p2, identifier.size() * 2, identifier.c_str());
+			AddToken(Type::Identifier, (void*)(p2));
 			continue;
 		}
 
@@ -58,8 +62,9 @@ Tokenizer::Tokenizer(const char* location) {
 				character_index++;
 				break;
 			}
-
-			AddToken(Type::String, (void*)string_data.c_str());
+			char* p2 = new char[string_data.size()];
+			strcpy_s(p2, string_data.size() *2, string_data.c_str());
+			AddToken(Type::String, (void*)(p2));
 			continue;
 		}
 		case ' ':
@@ -67,15 +72,50 @@ Tokenizer::Tokenizer(const char* location) {
 		case'\n':
 			line++;
 			continue;
+		case'=': {
+			continue;
+		}
 		default:
 			printf("Unrecognized character (\"%c\") at (%d)\n", GetCurrentChar(), character_index);
 			std::exit(-1);
 		}
 	}
+
+	AddToken(Type::Int, (void*)5);
 }
 
+void Tokenizer::ReadTokens() {
+	for (int i = 0; i < tokens.size(); i++) {
+		Token* t = tokens[i];
+
+		if (t->type == Type::Identifier) {
+			char* test = ((char*)(tokens[i]->data));
+			std::string identifier = "";
+			for (int i = 0; i < strlen(test); i++) {
+				identifier += test[i];
+			}
+
+			std::cout << "Identifier:" << identifier << "\n";
+		}
+		else if (t->type == Type::String) {
+			char* test = ((char*)(tokens[i]->data));
+			std::string string_data = "";
+			for (int i = 0; i < strlen(test); i++) {
+				string_data += test[i];
+			}
+
+			std::cout << "String:" << string_data << "\n";
+		}
+		else if (t->type == Type::Int) {
+			int test = (int)tokens[i]->data;
+			std::cout << "Int:" << test << std::endl;
+		}
+
+		delete tokens[i];
+	}
+}
 void Tokenizer::AddToken(Type type, void* data) {
-	std::cout << (const char*)data << std::endl;
+	tokens.push_back(new Token(type, data));
 }
 
 bool Tokenizer::IsIdentifierCharacter(char c, bool status) {
