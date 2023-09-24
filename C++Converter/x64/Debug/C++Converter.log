@@ -1,5 +1,23 @@
-﻿  Tokenizer.cpp
-C:\Projects\Compilers\C++Converter\Src\Tokenizer.cpp(22,23): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
-C:\Projects\Compilers\C++Converter\Src\Tokenizer.cpp(110,15): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
-C:\Projects\Compilers\C++Converter\Src\Tokenizer.cpp(110,15): warning C4302: 'type cast': truncation from 'void *' to 'int'
-  C++Converter.vcxproj -> C:\Projects\Compilers\x64\Debug\C++Converter.exe
+﻿  Parser.cpp
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(20,14): warning C4302: 'type cast': truncation from 'void *' to 'char'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(28,20): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(28,20): warning C4302: 'type cast': truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(28,36): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(28,36): warning C4302: 'type cast': truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(30,20): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(30,20): warning C4302: 'type cast': truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(30,36): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(30,36): warning C4302: 'type cast': truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(32,20): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(32,20): warning C4302: 'type cast': truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(32,36): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(32,36): warning C4302: 'type cast': truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(34,20): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(34,20): warning C4302: 'type cast': truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(34,36): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+D:\Projects\C++\Compilers\C++Converter\Src\Parser.cpp(34,36): warning C4302: 'type cast': truncation from 'void *' to 'int'
+  Tokenizer.cpp
+D:\Projects\C++\Compilers\C++Converter\Src\Tokenizer.cpp(20,23): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+D:\Projects\C++\Compilers\C++Converter\Src\Tokenizer.cpp(57,24): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+  Generating Code...
+  C++Converter.vcxproj -> D:\Projects\C++\Compilers\x64\Debug\C++Converter.exe

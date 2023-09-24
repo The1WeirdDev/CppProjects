@@ -127,10 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Parser.cpp" />
     <ClCompile Include="Src\Main.cpp" />
     <ClCompile Include="Src\Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Parser.h" />
     <ClInclude Include="Src\Tokenizer.h" />
   </ItemGroup>
   <ItemGroup>

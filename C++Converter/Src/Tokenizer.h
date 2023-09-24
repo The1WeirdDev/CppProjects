@@ -6,9 +6,12 @@
 
 enum Type {
 	Identifier, //type (const char*)
+	Keyword,
 	String, //type (const char*)
 	Int,
-	
+	Operator,
+	Punctuator,
+	OOF //Out of file
 };
 class Token {
 public:
@@ -24,12 +27,14 @@ class Tokenizer {
 public:
 	Tokenizer(const char* location);
 
+	Type CheckIfKeyword(std::string data);
+
 	void ReadTokens();
 	void AddToken(Type type, void* data);
 
 	bool IsIdentifierCharacter(char c, bool status);
 
-	std::vector<Token*> tokens;
+	std::vector<Token> tokens;
 private:
 	//File
 	std::string code;
