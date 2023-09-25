@@ -108,7 +108,7 @@ Tokenizer::Tokenizer(const char* location) {
 			AddToken(Type::Punctuator, (void*)'}');
 			break;							  	
 		case'=':							  	
-			AddToken(Type::Punctuator, (void*)'=');
+			AddToken(Type::Operator, (void*)'=');
 			break;							  	
 		case';':							  	
 			AddToken(Type::Punctuator, (void*)';');
@@ -121,7 +121,7 @@ Tokenizer::Tokenizer(const char* location) {
 }
 
 Type Tokenizer::CheckIfKeyword(std::string data) {
-	if (data == "print" || data == "void") {
+	if (data == "print" || data == "void" || data == "var") {
 		return Type::Keyword;
 	}
 	return Type::Identifier;
