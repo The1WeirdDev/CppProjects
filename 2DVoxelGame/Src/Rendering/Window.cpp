@@ -17,9 +17,13 @@ void  Window::Init() {
 		std::exit(-1);
 	}
 
+	GLFWvidmode* video_mode = (GLFWvidmode*)glfwGetVideoMode(glfwGetPrimaryMonitor());
+	glfwSetWindowPos(window, (video_mode->width - 1280) / 2, (video_mode->height - 720) / 2);
+
 	//Set Callbacks
 	glfwSetWindowSizeCallback(window, Window::WindowSizeCallback);
 	glfwSetKeyCallback(window, Keyboard::KeyCallback);
+
 	glClearColor(0.5, 0.5, 0.5, 1.0);
 	glfwSetWindowAspectRatio(window, 16, 9);
 }
