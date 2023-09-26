@@ -1,9 +1,11 @@
 #include "Game.h"
 
 #include <iostream>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include "Utils/FileReader.h"
 
-ChunkMesh Game::mesh;
+Chunk Game::chunk;
 Shader Game::shader;
 
 void Game::Init() {
@@ -12,20 +14,20 @@ void Game::Init() {
 	ShaderData data = FileReader::ReadFileAsShader("Res/Shaders/DefaultShader.shader");
 	shader.Create(data.vertex_data, data.fragment_data);
 
-	float* vertices = new float[8]{
-		0, 0,
-		1, 0,
-		0, 1,
-		1, 1
-	};
-	int* indices = new int[6] {
-		0,1,2,
-		2,1,3
-	};
-	mesh.CreateMesh(vertices, indices);
+	int projection_matrix_location = shader.GetUniformLocation("projection_matrix");
+	shader.Start();
+	float aspect_ratio = 1920.0f / 1080.0f;
+	glm::mat4x4 matrix = glm::ortho(-aspect_ratio * 35, aspect_ratio * 35, -1.0f * 35, 1.0f * 35, 0.01f, 1.0f);
+	shader.Load4x4Matrix(projection_matrix_location, &matrix[0][0]);
+	shader.Stop();
+
+	chunk.CreateMesh();
 }
 void Game::CleanUp() {
-	mesh.CleanUp();
+	chunk.CleanUp();
+
+	shader.CleanUp();
+
 	Window::CleanUp();
 	glfwTerminate();
 }
@@ -33,7 +35,7 @@ void Game::Update() {
 	Window::Update();
 
 	shader.Start();
-	mesh.Draw();
+	chunk.Draw();
 	shader.Stop();
 }
 void Game::Draw() {

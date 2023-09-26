@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\src;$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\glfw-3.3.8\WIN32\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm\include;$(ProjectDir)\src;$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\glfw-3.3.8\WIN32\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -110,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\src;$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\glfw-3.3.8\WIN32\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm\include;$(ProjectDir)\src;$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\glfw-3.3.8\WIN32\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\src;$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\glfw-3.3.8\WIN64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm\include;$(ProjectDir)\src;$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\glfw-3.3.8\WIN64\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -146,7 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\src;$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\glfw-3.3.8\WIN64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm\include;$(ProjectDir)\src;$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\glfw-3.3.8\WIN64\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\World\Chunk\Chunk.cpp" />
     <ClCompile Include="Src\Utils\FileReader.cpp" />
     <ClCompile Include="Src\World\Chunk\ChunkMesh.cpp" />
     <ClCompile Include="Src\Rendering\Shader.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="Src\Rendering\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\World\Chunk\Chunk.h" />
     <ClInclude Include="Src\Utils\FileReader.h" />
     <ClInclude Include="Src\World\Chunk\ChunkMesh.h" />
     <ClInclude Include="Src\Rendering\Shader.h" />

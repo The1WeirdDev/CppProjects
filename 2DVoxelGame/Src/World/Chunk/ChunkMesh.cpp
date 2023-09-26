@@ -8,29 +8,30 @@
 ChunkMesh::ChunkMesh() {
 }
 
-void ChunkMesh::CreateMesh(float* vertices, int* indices) {
+void ChunkMesh::CreateMesh(int* vertices, int* indices, int vertex_count, int index_count) {
 	glGenVertexArrays(1, &vao_id);
-	glGenBuffers(1, &vbo_id);
-	glGenBuffers(1, &ebo_id);
+
+	glBindVertexArray(vao_id);
 
 	//Vertex Data
+	glGenBuffers(1, &vbo_id);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
-	glBufferData(GL_ARRAY_BUFFER, 8*sizeof(float), vertices, GL_STATIC_DRAW);//sizeof(vertices) / sizeof(float)
+	glBufferData(GL_ARRAY_BUFFER, vertex_count*sizeof(int), vertices, GL_STATIC_DRAW);//sizeof(vertices) / sizeof(float)
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
-	glDisableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_INT, GL_FALSE, 2 * sizeof(float), nullptr);
 
 	//Triangle Data
+	glGenBuffers(1, &ebo_id);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(int), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_count*sizeof(unsigned int), indices, GL_STATIC_DRAW);
+
+	this->index_count = index_count;
 }
 void ChunkMesh::Draw() {
 	glBindVertexArray(vao_id);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);
 
 	glEnableVertexAttribArray(0);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
 	glDisableVertexAttribArray(0);
 
 	glBindVertexArray(0);

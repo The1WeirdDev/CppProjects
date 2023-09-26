@@ -27,6 +27,7 @@ ShaderData FileReader::ReadFileAsShader(const char* location) {
 				fragment_data += current_line += "\n";
 		}
 	}
+	file.close();
 
 	ShaderData data;
 	data.vertex_data = vertex_data;

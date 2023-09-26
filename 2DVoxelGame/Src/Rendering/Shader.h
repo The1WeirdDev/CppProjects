@@ -10,11 +10,19 @@ public:
 class Shader{
 public:
 	Shader();
+
 	void Create(std::string vertex_data, std::string fragment_data);
-	static int LoadShader(int type, const char* data);
-	void Create();
+	void CleanUp();
+
 	void Start();
 	void Stop();
+public:
+	void BindAttribute(int location, const char* value);
+	int GetUniformLocation(const char* value);
+public:
+	void Load4x4Matrix(int location, float* data);
+public:
+	static int LoadShader(int type, const char* data);
 protected:
 	int program_id = 0;
 	int vertex_shader_id = 0;
