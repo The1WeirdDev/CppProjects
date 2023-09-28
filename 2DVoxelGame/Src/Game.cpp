@@ -3,7 +3,9 @@
 #include <iostream>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
 #include "Utils/FileReader.h"
+#include "Input/Keyboard.h"
 
 Chunk Game::chunk;
 Shader Game::shader;
@@ -22,17 +24,21 @@ void Game::Init() {
 	shader.Stop();
 
 	chunk.CreateMesh();
+
+	Keyboard::Init();
 }
 void Game::CleanUp() {
 	chunk.CleanUp();
 
 	shader.CleanUp();
 
+	Keyboard::CleanUp();
 	Window::CleanUp();
 	glfwTerminate();
 }
 void Game::Update() {
 	Window::Update();
+	Keyboard::Update();
 
 	shader.Start();
 	chunk.Draw();

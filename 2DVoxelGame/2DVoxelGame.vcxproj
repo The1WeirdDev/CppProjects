@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Input\Mouse.cpp" />
     <ClCompile Include="Src\World\Chunk\Chunk.cpp" />
     <ClCompile Include="Src\Utils\FileReader.cpp" />
     <ClCompile Include="Src\World\Chunk\ChunkMesh.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Src\Rendering\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Input\Mouse.h" />
     <ClInclude Include="Src\World\Chunk\Chunk.h" />
     <ClInclude Include="Src\Utils\FileReader.h" />
     <ClInclude Include="Src\World\Chunk\ChunkMesh.h" />
