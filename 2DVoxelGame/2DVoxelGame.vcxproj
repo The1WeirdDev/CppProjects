@@ -168,6 +168,7 @@
     <ClCompile Include="Src\Game.cpp" />
     <ClCompile Include="Src\Main.cpp" />
     <ClCompile Include="Src\Rendering\Window.cpp" />
+    <ClCompile Include="Src\Utils\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Input\Mouse.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Src\Input\Keyboard.h" />
     <ClInclude Include="Src\Game.h" />
     <ClInclude Include="Src\Rendering\Window.h" />
+    <ClInclude Include="Src\Utils\Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

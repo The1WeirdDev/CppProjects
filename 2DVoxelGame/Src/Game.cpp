@@ -6,12 +6,19 @@
 
 #include "Utils/FileReader.h"
 #include "Input/Keyboard.h"
+#include "Input/Mouse.h"
+
+#include "Utils/Vector.h"
 
 Chunk Game::chunk;
 Shader Game::shader;
 
 void Game::Init() {
 	Window::Init();
+
+	Vector2 vec(5, 5);
+	vec = vec + Vector2(5, 1);
+	std::cout << vec.x << " " << vec.y << std::endl;
 
 	ShaderData data = FileReader::ReadFileAsShader("Res/Shaders/DefaultShader.shader");
 	shader.Create(data.vertex_data, data.fragment_data);
@@ -26,6 +33,7 @@ void Game::Init() {
 	chunk.CreateMesh();
 
 	Keyboard::Init();
+	Mouse::Init();
 }
 void Game::CleanUp() {
 	chunk.CleanUp();
@@ -33,12 +41,14 @@ void Game::CleanUp() {
 	shader.CleanUp();
 
 	Keyboard::CleanUp();
+	Mouse::CleanUp();
 	Window::CleanUp();
 	glfwTerminate();
 }
 void Game::Update() {
 	Window::Update();
 	Keyboard::Update();
+	Mouse::Update();
 
 	shader.Start();
 	chunk.Draw();
