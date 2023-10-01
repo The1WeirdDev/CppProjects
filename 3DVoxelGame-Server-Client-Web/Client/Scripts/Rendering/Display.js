@@ -5,4 +5,8 @@ class Display {
     static Update() {
         gl.clear(gl.COLOR_BUFFER_BIT);
     }
+
+    static GetAspectRatio() {
+        return innerWidth / innerHeight;
+    }
 }

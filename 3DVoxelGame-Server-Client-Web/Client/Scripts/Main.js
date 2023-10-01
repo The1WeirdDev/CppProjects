@@ -4,26 +4,22 @@ const gl = canvas.getContext("webgl2", { premultipliedAlpha: true, antialias: fa
 function Main() {
     Init();
     setInterval(Update, 1000 / 60);
+
+    /*
+    Pretty sure javascript just discards all of its resources
+    */
 }
 
 function Init() {
-    Display.Init();
-    window.addEventListener("resize", function () {
-        canvas.width = this.innerWidth;
-        canvas.height = this.innerHeight;
-        gl.viewport(0, 0, this.innerWidth, this.innerHeight);
-    });
-    canvas.oncontextmenu = function (e) {
-        e.preventDefault();
-    };
+    Game.Init();
 }
 
 function Update() {
-    Display.Update();
+    Game.Update();
     Draw();
 }
 function Draw() {
-
+    Game.Draw();
 }
 
 Main();

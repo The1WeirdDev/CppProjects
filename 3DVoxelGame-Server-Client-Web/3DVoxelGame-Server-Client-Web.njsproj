@@ -32,7 +32,55 @@
     <Content Include="Client\Index.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Client\Scripts\Entities\Entity.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Entities\Player.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Game.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Libs\gl-matrix.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Libs\Momentum.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Client\Scripts\Main.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Rendering\Display.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Rendering\Mesh.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Rendering\Meshes\BasicMesh.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Input\Keyboard.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Input\Mouse.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Rendering\Shader.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Rendering\Shaders\ChunkShader.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Utils\Vector.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\World\Chunk.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\World\World.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Style.css">
       <SubType>Code</SubType>
     </Content>
     <Content Include="package.json" />
@@ -44,6 +92,15 @@
   <ItemGroup>
     <Folder Include="Client\" />
     <Folder Include="Client\Scripts\" />
+    <Folder Include="Client\Scripts\Networking\" />
+    <Folder Include="Client\Scripts\Entities\" />
+    <Folder Include="Client\Scripts\Libs\" />
+    <Folder Include="Client\Scripts\Input\" />
+    <Folder Include="Client\Scripts\Rendering\Meshes\" />
+    <Folder Include="Client\Scripts\Rendering\Shaders\" />
+    <Folder Include="Client\Scripts\World\" />
+    <Folder Include="Client\Scripts\Utils\" />
+    <Folder Include="Client\Scripts\Rendering\" />
     <Folder Include="Server\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />

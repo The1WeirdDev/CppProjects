@@ -2,7 +2,7 @@ const express = require("express");
 const fs = require("fs");
 
 const server = express();
-const port = 80;
+const port = 7777;
 
 server.listen(port, (err, data) => {
     if (err) {
