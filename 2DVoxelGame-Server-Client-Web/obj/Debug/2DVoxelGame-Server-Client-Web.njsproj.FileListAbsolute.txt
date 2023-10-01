@@ -1,0 +1,3 @@
+D:\Projects\C++\C++Projects\2DVoxelGame-Server-Client-Web\obj\Debug\2DVoxelGame-Server-Client-Web.njsproj.AssemblyReference.cache
+D:\Projects\C++\C++Projects\2DVoxelGame-Server-Client-Web\obj\Debug\2DVoxelGame-Server-Client-Web.njsproj.CoreCompileInputs.cache
+D:\Projects\C++\C++Projects\2DVoxelGame-Server-Client-Web\bin\Microsoft.NodejsTools.WebRole.dll
