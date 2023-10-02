@@ -1,14 +1,226 @@
+const BlockDirection = {
+    Up:0,
+    Down:1,
+    East:2,
+    West:3,
+    North:4,
+    South:5
+}
 class Chunk {
+    world = null;
     x = 0;
     z = 0;
 
-    mesh = null;
+    block_data = null;
 
-    constructor(x, z) {
+    //MeshData
+    vertices = [];
+    texture_coords = [];
+    indices = [];
+    mesh = null;
+    vertex_index = 0;
+    created = false;
+
+    static chunk_width = 10;
+    static chunk_height = 20;
+    static chunk_layer_squared = Chunk.chunk_width * Chunk.chunk_width;
+
+    constructor(world, x, z) {
+        this.world = world;
         this.x = x;
         this.z = z;
+
+        this.block_data = new Array(Chunk.chunk_width * Chunk.chunk_height * Chunk.chunk_width);
+        this.block_data.fill(0, 0, this.block_data.length);
+
         this.mesh = new BasicMesh();
-        this.mesh.CreateMesh([0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0], [0, 1, 2, 2, 1, 3]);
+        this.transformation_matrix = mat4.create();
+        this.transformation_matrix = mat4.translate(this.transformation_matrix, this.transformation_matrix, [this.x * Chunk.chunk_width, 0, this.z * Chunk.chunk_width]);
+    }
+
+    CreateBlockData() {
+        for (var x = 0; x < Chunk.chunk_width; x++) {
+            for (var z = 0; z < Chunk.chunk_width; z++) {
+                var global_x = x + (this.x * Chunk.chunk_width);
+                var global_z = z + (this.z * Chunk.chunk_width);
+                var perlin = simplex.noise((global_x + 0.25) / 20, (global_z + 0.25) / 20);
+                var height = Math.floor(perlin * 5) + 5;
+                for (var y = 0; y < height; y++) {
+                    this.SetBlock(x, y, z, 1);
+                }
+            }
+        }
+    }
+
+    CreateMeshData() {
+        if (this.created) {
+            this.mesh.CleanUp();
+        }
+        for (var x = 0; x < Chunk.chunk_width; x++) {
+            for (var z = 0; z < Chunk.chunk_width; z++) {
+                for (var y = 0; y < Chunk.chunk_height; y++) {
+                    if (this.GetBlock(x, y, z) == 1) {
+                        if (this.GetBlock(x, y + 1, z) == 0)
+                            this.AddFace(x, y, z, 0, BlockDirection.Up);
+
+                        if (this.GetBlock(x, y - 1, z, true) == 0)
+                            this.AddFace(x, y, z, 0, BlockDirection.Down);
+
+                        if (this.GetBlock(x, y, z + 1, true) == 0)
+                            this.AddFace(x, y, z, 1, BlockDirection.North);
+
+                        if (this.GetBlock(x, y, z - 1, true) == 0)
+                            this.AddFace(x, y, z, 1, BlockDirection.South);
+
+                        if (this.GetBlock(x + 1, y, z, true) == 0)
+                            this.AddFace(x, y, z, 1, BlockDirection.East);
+
+                        if (this.GetBlock(x - 1, y, z, true) == 0)
+                            this.AddFace(x, y, z, 1, BlockDirection.West);
+                    }
+                }
+            }
+        }
+        this.mesh.CreateMesh(this.vertices, this.texture_coords, this.indices);
+        this.created = true;
+    }
+
+    AddFace(x, y, z, texture, direction) {
+        switch (direction) {
+            case BlockDirection.North: {
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 1);
+
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 1);
+
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 1);
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 1);
+                break;
+            }
+            case BlockDirection.South: {
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 0);
+
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 0);
+
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 0);
+
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 0);
+                break;
+            }
+            case BlockDirection.East: {
+
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 0);
+
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 0);
+
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 1);
+
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 1);
+                break;
+            }
+            case BlockDirection.West: {
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 1);
+
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 1);
+
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 0);
+
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 0);
+                break;
+            }
+            case BlockDirection.Up: {
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 0);
+
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 0);
+
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 1);
+
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 1);
+                this.vertices.push(z + 1);
+                break;
+            }
+            case BlockDirection.Down: {
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 0);
+
+                this.vertices.push(x + 0);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 1);
+
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 0);
+
+                this.vertices.push(x + 1);
+                this.vertices.push(y + 0);
+                this.vertices.push(z + 1);
+                break;
+            }
+            default: {
+                console.log("Error this shouldnt be called");
+                break;
+            }
+        }
+
+        var size = 16 / 256;
+        var x_pos = texture * size;
+        var y_pos = Math.floor(texture / 16) * size;
+
+        this.texture_coords.push(x_pos);
+        this.texture_coords.push(y_pos);
+        this.texture_coords.push(x_pos);
+        this.texture_coords.push(y_pos + size);
+        this.texture_coords.push(x_pos + size);
+        this.texture_coords.push(y_pos);
+        this.texture_coords.push(x_pos + size);
+        this.texture_coords.push(y_pos + size);
+
+        this.indices.push(this.vertex_index + 0);
+        this.indices.push(this.vertex_index + 1);
+        this.indices.push(this.vertex_index + 2);
+        this.indices.push(this.vertex_index + 2);
+        this.indices.push(this.vertex_index + 1);
+        this.indices.push(this.vertex_index + 3);
+        this.vertex_index += 4;
     }
 
     Update() {
@@ -16,6 +228,37 @@ class Chunk {
     }
 
     Draw() {
+        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.transformation_matrix_location, this.transformation_matrix);
         this.mesh.Draw();
+    }
+
+    static IsBlockInChunk(x, y, z) {
+        if (x < 0 || y < 0 || z < 0 || x >= Chunk.chunk_width || y >= Chunk.chunk_height || z >= Chunk.chunk_width)
+            return false;
+        return true;
+    }
+
+    GetBlock(x, y, z, check_surroundings = false) {
+        if (Chunk.IsBlockInChunk(x, y, z))
+            return this.block_data[(Chunk.chunk_layer_squared * y) + (x * Chunk.chunk_width) + z];
+
+        if (check_surroundings && !(y < 0 || y >= Chunk.chunk_height)) {
+            var offset_x = Math.floor(x / Chunk.chunk_width);
+            var offset_z = Math.floor(z / Chunk.chunk_width);
+            var new_chunk_x = this.x + offset_x;
+            var new_chunk_z = this.z + offset_z;
+            var chunk = this.world.GetChunk(new_chunk_x, new_chunk_z);
+
+            if (chunk) {
+                var bx = Math.abs(x - (offset_x * Chunk.chunk_width));
+                var bz = Math.abs(z - (offset_z * Chunk.chunk_width));
+                return chunk.GetBlock(bx, y, bz);
+            }
+        }
+        return 1;
+    }
+    SetBlock(x, y, z, id) {
+        if (Chunk.IsBlockInChunk(x, y, z))
+            this.block_data[(Chunk.chunk_layer_squared * y) + (x * Chunk.chunk_width) + z] = id;
     }
 }

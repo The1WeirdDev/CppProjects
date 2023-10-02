@@ -2,33 +2,92 @@ class World {
     name = "";
 
     chunks = [];
+    chunks_meshes_to_create = [];
 
-    rotation = 0;
+    texture_id = null;
 
     Init() {
         this.chunks = new Map();
-        var chunk = new Chunk(0, 0);
-        this.chunks.set("0,0", chunk);
+
+        this.texture_id = Texture.LoadTexture(gl, "Client/Res/texture_pack.png");
+        this.chunks_meshes_to_create = new Array();
     }
     Update() {
-        var chunk = this.chunks.get("0,0");
-        chunk.Update();
+
+        var chunk_x = Math.floor(Game.player.position.x / Chunk.chunk_width);
+        var chunk_z = Math.floor(Game.player.position.z / Chunk.chunk_width);
+        for (var x = chunk_x - 2; x <= chunk_x + 2; x++) {
+            for (var z = chunk_z - 2; z <= chunk_z + 2; z++) {
+                var chunk = this.GetChunk(x, z);
+                if (!chunk) {
+                    chunk = this.CreateChunk(x, z);
+                }
+                chunk.Update();
+            }
+        }
+
+        for (var i = 0; i < this.chunks_meshes_to_create.length; i++) {
+            this.chunks_meshes_to_create[i].CreateMeshData();
+        }
+
+        this.chunks_meshes_to_create = [];
     }
     Draw() {
         Game.chunk_shader.Start();
-        var matrix1 = mat4.create();
-        var matrix2 = mat4.create();
-        var matrix3 = mat4.create();
-        matrix1 = mat4.perspective(matrix1, Mathf.ToRadians(80), Display.GetAspectRatio(), 0.01, 1000);
-        matrix2 = mat4.translate(matrix2, matrix2, [0, 0, -5]);
-        matrix3 = mat4.rotate(matrix3, matrix3, Mathf.ToRadians(this.rotation), [0, 1, 0]);
-        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.projection_matrix_location, matrix1);
-        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.view_matrix_location, matrix2);
-        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.transformation_matrix_location, matrix3);
 
-        this.rotation = this.rotation + 1;
-        var chunk = this.chunks.get("0,0");
-        chunk.Draw();
+        var chunk_x = Math.floor(Game.player.position.x / Chunk.chunk_width);
+        var chunk_z = Math.floor(Game.player.position.z / Chunk.chunk_width);
+        for (var x = chunk_x - 2; x <= chunk_x + 2; x++) {
+            for (var z = chunk_z - 2; z <= chunk_z + 2; z++) {
+                var chunk = this.chunks.get(`${x},${z}`);
+                if(chunk)
+                    chunk.Draw();
+            }
+        }
         Game.chunk_shader.Stop();
+    }
+
+    GetBlock(x, y, z) {
+        if (y < 0 || y >= Chunk.chunk_height)
+            return 0;
+
+        var floor_x = Math.floor(x);
+        var floor_y = Math.floor(y);
+        var floor_z = Math.floor(z);
+        var chunk_x = Math.floor(x / Chunk.chunk_width);
+        var chunk_z = Math.floor(z / Chunk.chunk_width);
+
+        var chunk = this.GetChunk(chunk_x, chunk_z);
+        if (chunk) {
+            return chunk.GetBlock(floor_x - (chunk_x * Chunk.chunk_width), floor_y, floor_z - (chunk_z * Chunk.chunk_width));
+        }
+
+        return 1;
+    }
+
+    GetChunk(x, z) {
+        var chunk = this.chunks.get(`${x},${z}`);
+        return chunk;
+    }
+    CreateChunk(x, z) {
+        var chunk = new Chunk(this, x, z);
+        this.chunks.set(`${x},${z}`, chunk);
+        chunk.CreateBlockData();
+
+        this.AddChunkToRecreateListIfNot(chunk);
+        this.AddChunkToRecreateListIfNot(this.GetChunk(x + 1, z));
+        this.AddChunkToRecreateListIfNot(this.GetChunk(x - 1, z));
+        this.AddChunkToRecreateListIfNot(this.GetChunk(x, z + 1));
+        this.AddChunkToRecreateListIfNot(this.GetChunk(x, z - 1));
+        return chunk;
+    }
+
+    AddChunkToRecreateListIfNot(chunk) {
+        if (chunk == null)
+            return;
+
+        var index = this.chunks_meshes_to_create.indexOf(chunk);
+        if (index < 0)
+            this.chunks_meshes_to_create.push(chunk);
     }
 }

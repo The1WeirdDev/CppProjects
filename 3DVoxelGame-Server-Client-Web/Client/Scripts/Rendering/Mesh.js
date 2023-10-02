@@ -4,6 +4,7 @@ class Mesh {
     ebo_id = 0;
 
     index_count = 0;
+    created = false;
 
     Draw() { }
 }

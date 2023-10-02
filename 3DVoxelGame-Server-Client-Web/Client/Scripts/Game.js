@@ -23,15 +23,30 @@ class Game {
 
         Game.AddEventListeners();
 
+        Game.chunk_shader.Start();
+
+        var matrix1 = mat4.create();
+        matrix1 = mat4.perspective(matrix1, Mathf.ToRadians(75), Display.GetAspectRatio(), 0.01, 1000);
+        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.projection_matrix_location, matrix1);
+        Game.chunk_shader.Stop();
+
         canvas.width = innerWidth;
         canvas.height = innerHeight;
         gl.viewport(0, 0, innerWidth, innerHeight);
+
+        Time.Init();
     }
 
     static Update() {
         Display.Update();
         Keyboard.Update();
         Mouse.Update();
+        Time.Update();
+
+        var matrix1 = mat4.create();
+        matrix1 = mat4.perspective(matrix1, Mathf.ToRadians(75), Display.GetAspectRatio(), 0.01, 1000);
+        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.projection_matrix_location, matrix1);
+        Game.chunk_shader.Stop();
 
         Game.world.Update();
         Game.player.Update();
@@ -66,8 +81,15 @@ class Game {
             Mouse.OnMouseUp(e);
         });
         window.addEventListener("mousemove", (e) => {
+            const {
+                movementX,
+                movementY
+            }= e;
+            movement_x = movementX;
+            movement_y = movementY;
             Mouse.OnMouseMove(e);
         });
+
 
         canvas.oncontextmenu = function (e) {
             e.preventDefault();

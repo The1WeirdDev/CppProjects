@@ -32,6 +32,7 @@
     <Content Include="Client\Index.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Client\Res\texture_pack.png" />
     <Content Include="Client\Scripts\Entities\Entity.js">
       <SubType>Code</SubType>
     </Content>
@@ -71,6 +72,12 @@
     <Content Include="Client\Scripts\Rendering\Shaders\ChunkShader.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Client\Scripts\Rendering\Texture.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Utils\Mathf.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Client\Scripts\Utils\Vector.js">
       <SubType>Code</SubType>
     </Content>
@@ -91,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Client\" />
+    <Folder Include="Client\Res\" />
     <Folder Include="Client\Scripts\" />
     <Folder Include="Client\Scripts\Networking\" />
     <Folder Include="Client\Scripts\Entities\" />

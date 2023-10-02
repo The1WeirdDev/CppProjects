@@ -7,18 +7,27 @@ class Mouse {
     static mouse_delta_y;
 
     static Init() {
-
+        Mouse.mouse_x = 0;
+        Mouse.mouse_y = 0;
+        Mouse.last_mouse_x = 0;
+        Mouse.last_mouse_y = 0;
+        Mouse.mouse_delta_x = 0;
+        Mouse.mouse_delta_y = 0;
     }
 
     static Update() {
-        Mouse.mouse_delta_x = Mouse.mouse_x - Mouse.last_mouse_x;
-        Mouse.mouse_delta_y = Mouse.mouse_y - Mouse.last_mouse_y;
+        Mouse.mouse_delta_x = movement_x;// Mouse.mouse_x - Mouse.last_mouse_x;
+        Mouse.mouse_delta_y = movement_y;// Mouse.mouse_y - Mouse.last_mouse_y;
         Mouse.last_mouse_x = Mouse.mouse_x;
         Mouse.last_mouse_y = Mouse.mouse_y;
+        movement_x = 0;
+        movement_y = 0;
 
         if (!document.hasFocus()) {
             Mouse.mouse_delta_x = 0;
             Mouse.mouse_delta_y = 0;
+            movement_x = 0;
+            movement_y = 0;
         }
     }
 
