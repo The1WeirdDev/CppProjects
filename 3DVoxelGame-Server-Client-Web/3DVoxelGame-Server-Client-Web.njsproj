@@ -48,6 +48,9 @@
     <Content Include="Client\Scripts\Libs\Momentum.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Client\Scripts\Libs\SimplexNoise.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Client\Scripts\Main.js">
       <SubType>Code</SubType>
     </Content>
@@ -76,6 +79,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\Utils\Mathf.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Utils\Time.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\Utils\Vector.js">
