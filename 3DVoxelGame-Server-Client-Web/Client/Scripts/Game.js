@@ -1,6 +1,5 @@
 class Game {
     static player = null;
-    static shader = null;
     static chunk_shader = null;
     static non_local_player_shader = null;
     static world = null;
@@ -9,10 +8,6 @@ class Game {
         Display.Init();
         Keyboard.Init();
         Mouse.Init();
-
-        Game.shader = new Shader();
-        Game.shader.Create(`precision mediump float;\nattribute vec2 position; void main(){gl_Position = vec4(position, 0.0, 1.0);}`,
-            `precision mediump float;\nvoid main(){gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);}`);
 
         Game.chunk_shader = new ChunkShader();
         //Game.non_local_player_shader = new NonLocalPlayerShader();

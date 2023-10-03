@@ -1,4 +1,4 @@
-class BasicMesh extends Mesh {
+class ChunkMesh extends Mesh {
     vao_id = null;
     vbo_id = null;
     tbo_id = null;
@@ -16,11 +16,11 @@ class BasicMesh extends Mesh {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo_id);
         gl.bufferData(
             gl.ARRAY_BUFFER,
-            new Float32Array(vertices),//Int8Array
+            new Int8Array(vertices),//Int8Array
             gl.STATIC_DRAW
         );
         gl.enableVertexAttribArray(0);
-        gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(0, 3, gl.UNSIGNED_BYTE, false, 0, 0);
 
         //Texture Coords
         gl.bindBuffer(gl.ARRAY_BUFFER, this.tbo_id);

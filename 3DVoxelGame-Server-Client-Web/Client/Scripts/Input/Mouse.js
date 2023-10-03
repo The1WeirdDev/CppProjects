@@ -48,5 +48,7 @@ class Mouse {
         Mouse.normalized_x = normalized_x;
         Mouse.normalized_y = normalized_y;
         Game.player.GetMouseInput();
+        //player.GetMouseInput();
+        //console.log("Moved");
     }
 }

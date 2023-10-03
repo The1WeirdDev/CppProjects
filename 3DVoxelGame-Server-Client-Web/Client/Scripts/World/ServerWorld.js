@@ -108,6 +108,7 @@ class ServerWorld extends World {
         var chunk = new Chunk(this, x, z);
         this.chunks.set(`${x},${z}`, chunk);
         //chunk.CreateBlockData();
+        //this.AddChunkToRecreateListIfNot(chunk);
         if (should_request_data)
             Networking.SendPacket("GetChunk", [x, z]);
         return chunk;

@@ -34,7 +34,7 @@ class Chunk {
         this.block_data = new Array(Chunk.chunk_width * Chunk.chunk_height * Chunk.chunk_width);
         this.block_data.fill(0, 0, this.block_data.length);
 
-        this.mesh = new BasicMesh();
+        this.mesh = new ChunkMesh();
         this.transformation_matrix = mat4.create();
         this.transformation_matrix = mat4.translate(this.transformation_matrix, this.transformation_matrix, [this.x * Chunk.chunk_width, 0, this.z * Chunk.chunk_width]);
     }

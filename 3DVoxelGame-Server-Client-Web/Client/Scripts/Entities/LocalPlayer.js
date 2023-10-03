@@ -174,12 +174,17 @@ class LocalPlayer extends Entity {
         matrix = mat4.rotate(matrix, matrix, Mathf.ToRadians(this.rotation.x), [1, 0, 0]);
         matrix = mat4.rotate(matrix, matrix, Mathf.ToRadians(this.rotation.y), [0, 1, 0]);
         matrix = mat4.translate(matrix, matrix, [-this.position.x, -this.position.y, -this.position.z]);
-        this.view_matrix = matrix;
+        //this.view_matrix = matrix;
 
         Game.chunk_shader.Start();
         //Game.chunk_shader.LoadTransformationMatrix(matrix);
-        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.view_matrix, matrix);
+        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.view_matrix_location, matrix);
         Game.chunk_shader.Stop();
+
+        //shader.Start();
+        //Game.chunk_shader.LoadTransformationMatrix(matrix);
+        //shader.LoadMatrix4x4(shader.view_matrix_location, matrix);
+        //shader.Stop();
 
         //Game.non_local_player_shader.Start();
         //Game.non_local_player_shader.LoadTransformationMatrix(matrix);
