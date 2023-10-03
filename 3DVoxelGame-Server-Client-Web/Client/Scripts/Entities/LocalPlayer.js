@@ -43,7 +43,7 @@ class LocalPlayer extends Entity {
             this.PlaceBlock(0);
         }
 
-        //Networking.SendPacket("SetPosition", [this.position.x, this.position.y, this.position.z]);
+        Networking.SendPacket("SetPosition", [this.position.x, this.position.y, this.position.z]);
     }
     PlaceBlock(id) {
         var reach = 0;

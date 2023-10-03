@@ -12,6 +12,7 @@ class Networking {
 
             Networking.socket.on("SetPlayerList", (players) => {
                 for (var i = 0; i < players.length; i++) {
+                    console.log(players[i]);
                     var player = new NonLocalPlayer(players[i]);
                     Networking.players.push(player);
                 }
@@ -21,7 +22,10 @@ class Networking {
                 var player = Networking.GetPlayerFromUserId(id);
 
                 if (player) {
+                    console.log("Setting position");
                     player.SetPosition(x, y, z);
+                } else {
+                    console.log("Coudlnt get player with id of " + id);
                 }
             });
 
@@ -35,7 +39,7 @@ class Networking {
         for (var i = 0; i < Networking.players.length; i++) {
             var player = Networking.players[i];
             if (player.user_id == id)
-                return id;
+                return player;
         }
 
         return null;
