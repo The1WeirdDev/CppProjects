@@ -4,13 +4,15 @@ class Game {
     static non_local_player_shader = null;
     static world = null;
 
+    static projection_matrix = null;
+
     static Init() {
         Display.Init();
         Keyboard.Init();
         Mouse.Init();
 
         Game.chunk_shader = new ChunkShader();
-        //Game.non_local_player_shader = new NonLocalPlayerShader();
+        Game.non_local_player_shader = new NonLocalPlayerShader();
 
         Game.world = new ServerWorld();
         Game.world.Init();
@@ -21,6 +23,8 @@ class Game {
         canvas.width = innerWidth;
         canvas.height = innerHeight;
         gl.viewport(0, 0, innerWidth, innerHeight);
+
+        Game.projection_matrix = mat4.create();
 
         Game.AddEventListeners();
         Game.CreateAndLoadProjectionMatrix();
@@ -40,19 +44,27 @@ class Game {
     }
 
     static Draw() {
+        gl.enable(gl.CULL_FACE);
+        Game.chunk_shader.PreDraw();
         Game.world.Draw();
-        //Networking.Draw();
-        //Game.player.Draw();
+
+        gl.disable(gl.CULL_FACE);
+        Game.non_local_player_shader.PreDraw();
+        Networking.Draw();
+
+        Game.player.Draw();
         //Frustom.IsPointInsideViewFrustom(0, 0, 0, Game.player.view_matrix);
     }
 
     static CreateAndLoadProjectionMatrix() {
+        Game.projection_matrix = mat4.perspective(Game.projection_matrix, Mathf.ToRadians(80), Display.GetAspectRatio(), 0.001, 1000);
+
+        Game.non_local_player_shader.Start();
+        Game.non_local_player_shader.LoadProjectionMatrix(Game.projection_matrix);
+
         Game.chunk_shader.Start();
-        var matrix1 = mat4.create();
-        matrix1 = mat4.perspective(matrix1, Mathf.ToRadians(75), Display.GetAspectRatio(), 0.001, 1000);
-        //mat4.translate(matrix1, matrix1, [0, 0, 0.5])
-        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.projection_matrix_location, matrix1);
-        Game.chunk_shader.Stop();
+        Game.chunk_shader.LoadProjectionMatrix(Game.projection_matrix);
+        //Game.chunk_shader.Stop();
 
         //Game.non_local_player_shader.Start();
         //Game.non_local_player_shader.LoadProjectionMatrix(matrix2);

@@ -47,7 +47,7 @@ class ServerWorld extends World {
                     chunk.Draw();
             }
         }
-        Game.chunk_shader.Stop();
+        //Game.chunk_shader.Stop();
     }
 
     GetBlock(x, y, z) {

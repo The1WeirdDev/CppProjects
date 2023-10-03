@@ -113,7 +113,7 @@ class LocalPlayer extends Entity {
                 if ((closest_right > 0))
                     this.position.x += Mathf.Clamp(this.movement_direction.x, 0, closest_right);
             }
-            else {
+            else if (this.movement_direction.x < 0) {
                 for (var x = floored_x; x > floored_x - 5; x--) {
                     if (Game.world.GetBlock(x, this.position.y - y_check, this.position.z)) {
                         closest_left = x - this.position.x - this.movement_direction.x + 1 + width;
@@ -135,7 +135,7 @@ class LocalPlayer extends Entity {
                 if ((closest_forwards > 0))
                     this.position.z += Mathf.Clamp(this.movement_direction.y, 0, closest_forwards);
             }
-            else {
+            else if (this.movement_direction.y < 0) {
                 for (var z = floored_z; z > floored_z - 5; z--) {
                     if (Game.world.GetBlock(this.position.x, this.position.y, z)) {
                         closest_backwards = z - this.position.z - this.movement_direction.y + 1 + width;
@@ -145,10 +145,6 @@ class LocalPlayer extends Entity {
                 if ((closest_backwards < 0))
                     this.position.z += Mathf.Clamp(this.movement_direction.y, closest_backwards, 0);
             }
-
-            //if ((closest_backwards < 0 && this.movement_direction.y < 0) || (closest_forwards > 0 && this.movement_direction.y > 0))
-            //    this.position.z += Mathf.Clamp(this.movement_direction.y, closest_backwards, closest_forwards);
-
         }
         var closest_up = 1;
         var closest_down = -1;
@@ -156,7 +152,7 @@ class LocalPlayer extends Entity {
         if (this.velocity != 0) {
             for (var y = floored_y; y < floored_y + 5; y++) {
                 if (Game.world.GetBlock(this.position.x, y, this.position.z)) {
-                    closest_up = y - this.position.y - movement_velocity - height;
+                    closest_up = y - this.position.y - movement_velocity - 0.1;
                     break;
                 }
             }
@@ -170,7 +166,7 @@ class LocalPlayer extends Entity {
         this.is_grounded = false;
         if (closest_down > 0) {
             if (Keyboard.IsKeyDown(32)) {
-                this.velocity = Math.sqrt(5.0 * -2.0 * this.gravity);
+                this.Jump();
                 movement_velocity = this.velocity * Time.delta_time;
             } else {
                 this.is_grounded = true;
@@ -187,10 +183,17 @@ class LocalPlayer extends Entity {
             this.velocity = 0;
         }
     }
+
+    Jump() {
+        this.velocity = Math.sqrt(2.0 * -2.0 * this.gravity);
+    }
     Draw() {
     }
 
     GetMouseInput() {
+        if (document.hasFocus == false)
+            return;
+
         this.rotation.y += movement_x * 0.05;
         this.rotation.x += movement_y * 0.05;
 
@@ -198,16 +201,16 @@ class LocalPlayer extends Entity {
     }
 
     CalculateMatrices() {
-        var matrix = mat4.create();
-        matrix = mat4.rotate(matrix, matrix, Mathf.ToRadians(this.rotation.x), [1, 0, 0]);
-        matrix = mat4.rotate(matrix, matrix, Mathf.ToRadians(this.rotation.y), [0, 1, 0]);
-        matrix = mat4.translate(matrix, matrix, [-this.position.x, -this.position.y, -this.position.z]);
+        this.view_matrix = mat4.create();
+        mat4.rotate(this.view_matrix, this.view_matrix, Mathf.ToRadians(this.rotation.x), [1, 0, 0]);
+        mat4.rotate(this.view_matrix, this.view_matrix, Mathf.ToRadians(this.rotation.y), [0, 1, 0]);
+        mat4.translate(this.view_matrix, this.view_matrix, [-this.position.x, -this.position.y, -this.position.z]);
         //this.view_matrix = matrix;
 
-        Game.chunk_shader.Start();
+        //Game.chunk_shader.Start();
         //Game.chunk_shader.LoadTransformationMatrix(matrix);
-        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.view_matrix_location, matrix);
-        Game.chunk_shader.Stop();
+        //Game.chunk_shader.LoadViewMatrix(this.view_matrix);
+        //Game.chunk_shader.Stop();
 
         //shader.Start();
         //Game.chunk_shader.LoadTransformationMatrix(matrix);
@@ -217,5 +220,9 @@ class LocalPlayer extends Entity {
         //Game.non_local_player_shader.Start();
         //Game.non_local_player_shader.LoadTransformationMatrix(matrix);
         //Game.non_local_player_shader.Stop();
+    }
+
+    GetViewMatrix() {
+        return this.view_matrix;
     }
 }

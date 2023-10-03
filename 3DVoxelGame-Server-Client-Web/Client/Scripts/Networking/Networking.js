@@ -60,12 +60,12 @@ class Networking {
     }
 
     static Draw() {
-        Game.non_local_player_shader.Start();
+        //Game.non_local_player_shader.Start();
         for (var i = 0; i < Networking.players.length; i++) {
             var player = Networking.players[i];
             if (player)
                 player.Draw();
         }
-        Game.non_local_player_shader.Start();
+        //Game.non_local_player_shader.Start();
     }
 }

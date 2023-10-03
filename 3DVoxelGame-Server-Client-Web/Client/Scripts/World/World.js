@@ -4,6 +4,9 @@ class World {
     chunks = [];
     blocks = [];
 
+
+    texture_size = 16 / 256;
+
     constructor() {
         this.AddBlock(new Block("Air", false, 0, 0, 0, 0, 0, 0));
         this.AddBlock(new Block("Grass", false, 0, 2, 1, 1, 1, 1));

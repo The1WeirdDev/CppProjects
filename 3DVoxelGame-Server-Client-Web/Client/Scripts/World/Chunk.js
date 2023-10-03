@@ -219,18 +219,17 @@ class Chunk {
             }
         }
 
-        var size = 16 / 256;
-        var x_pos = texture * size;
-        var y_pos = Math.floor(texture / 16) * size;
+        var x_pos = texture * this.world.texture_size;
+        var y_pos = Math.floor(texture / 16) * this.world.texture_size;
 
         this.texture_coords.push(x_pos);
         this.texture_coords.push(y_pos);
         this.texture_coords.push(x_pos);
-        this.texture_coords.push(y_pos + size);
-        this.texture_coords.push(x_pos + size);
+        this.texture_coords.push(y_pos + this.world.texture_size);
+        this.texture_coords.push(x_pos + this.world.texture_size);
         this.texture_coords.push(y_pos);
-        this.texture_coords.push(x_pos + size);
-        this.texture_coords.push(y_pos + size);
+        this.texture_coords.push(x_pos + this.world.texture_size);
+        this.texture_coords.push(y_pos + this.world.texture_size);
 
         this.indices.push(this.vertex_index + 0);
         this.indices.push(this.vertex_index + 1);

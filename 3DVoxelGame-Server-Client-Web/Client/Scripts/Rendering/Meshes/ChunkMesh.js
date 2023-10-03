@@ -47,9 +47,8 @@ class ChunkMesh extends Mesh {
     }
 
     Draw() {
-        if (!this.created) {
+        if (!this.created) 
             return;
-        }
 
         gl.bindVertexArray(this.vao_id);
         gl.enableVertexAttribArray(0);

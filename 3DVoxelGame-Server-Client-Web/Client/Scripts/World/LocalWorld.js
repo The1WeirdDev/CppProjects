@@ -44,7 +44,7 @@ class LocalWorld extends World{
                     chunk.Draw();
             }
         }
-        Game.chunk_shader.Stop();
+        //Game.chunk_shader.Stop();
     }
 
     GetBlock(x, y, z) {

@@ -31,9 +31,9 @@ class Chunk {
 
                 for (var y = 0; y < height; y++) {
                     if(y < height - 1)
-                        this.SetBlock(x, y, z, 1);
-                    else
                         this.SetBlock(x, y, z, 2);
+                    else
+                        this.SetBlock(x, y, z, 1);
                 }
             }
         }
