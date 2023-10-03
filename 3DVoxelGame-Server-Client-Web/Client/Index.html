@@ -8,12 +8,16 @@
         <canvas id="GameCanvas"></canvas>
 
         <script src="Client/Scripts/Entities/Entity.js"></script>
-        <script src="Client/Scripts/Entities/Player.js"></script>
+        <script src="Client/Scripts/Entities/LocalPlayer.js"></script>
+        <script src="Client/Scripts/Entities/NonLocalPlayer.js"></script>
 
         <script src="Client/Scripts/Rendering/Shader.js"></script>
         <script src="Client/Scripts/Rendering/Shaders/ChunkShader.js"></script>
         <script src="Client/Scripts/Rendering/Mesh.js"></script>
         <script src="Client/Scripts/Rendering/Meshes/BasicMesh.js"></script>
+        <script src="Client/Scripts/Rendering/Meshes/PlayerMesh.js"></script>
+
+        <script src="Client/Scripts/Networking/Networking.js"></script>
 
         <script src="Client/Scripts/Libs/SimplexNoise.js"></script>
         <script src="Client/Scripts/Libs/Momentum.js"></script>
@@ -21,10 +25,13 @@
         <script src="/socket.io/socket.io.js"></script>
 
         <script src="Client/Scripts/World/World.js"></script>
+        <script src="Client/Scripts/World/LocalWorld.js"></script>
+        <script src="Client/Scripts/World/ServerWorld.js"></script>
         <script src="Client/Scripts/World/Chunk.js"></script>
 
         <script src="Client/Scripts/Input/Keyboard.js"></script>
         <script src="Client/Scripts/Input/Mouse.js"></script>
+        <script src="Client/Scripts/Utils/Frustom.js"></script>
         <script src="Client/Scripts/Utils/Time.js"></script>
         <script src="Client/Scripts/Utils/Vector.js"></script>
         <script src="Client/Scripts/Utils/Mathf.js"></script>

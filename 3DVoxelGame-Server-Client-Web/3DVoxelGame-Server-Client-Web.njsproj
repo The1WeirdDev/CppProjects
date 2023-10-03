@@ -36,7 +36,10 @@
     <Content Include="Client\Scripts\Entities\Entity.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Client\Scripts\Entities\Player.js">
+    <Content Include="Client\Scripts\Entities\LocalPlayer.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Entities\NonLocalPlayer.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\Game.js">
@@ -51,7 +54,13 @@
     <Content Include="Client\Scripts\Libs\SimplexNoise.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Client\Scripts\Libs\Socket.io.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Client\Scripts\Main.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Networking\Networking.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\Rendering\Display.js">
@@ -69,6 +78,9 @@
     <Content Include="Client\Scripts\Input\Mouse.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Client\Scripts\Rendering\Meshes\PlayerMesh.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Client\Scripts\Rendering\Shader.js">
       <SubType>Code</SubType>
     </Content>
@@ -76,6 +88,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\Rendering\Texture.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Utils\Frustom.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\Utils\Mathf.js">
@@ -90,6 +105,10 @@
     <Content Include="Client\Scripts\World\Chunk.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Client\Scripts\World\LocalWorld.js" />
+    <Content Include="Client\Scripts\World\ServerWorld.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Client\Scripts\World\World.js">
       <SubType>Code</SubType>
     </Content>
@@ -98,7 +117,25 @@
     </Content>
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="Server\Libs\SimplexNoise.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Server\Network.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Server\Player.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Server\Server.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Server\Utils\Vector3.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Server\World\Chunk\Chunk.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Server\World\World.js">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>
@@ -116,6 +153,10 @@
     <Folder Include="Client\Scripts\Utils\" />
     <Folder Include="Client\Scripts\Rendering\" />
     <Folder Include="Server\" />
+    <Folder Include="Server\Libs\" />
+    <Folder Include="Server\Utils\" />
+    <Folder Include="Server\World\Chunk\" />
+    <Folder Include="Server\World\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
 </Project>

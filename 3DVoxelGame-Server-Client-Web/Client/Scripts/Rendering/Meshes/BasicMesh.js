@@ -1,4 +1,10 @@
 class BasicMesh extends Mesh {
+    vao_id = null;
+    vbo_id = null;
+    tbo_id = null;
+    ebo_id = null;
+    index_count = null;
+
     CreateMesh(vertices, texture_coords, indices) {
         this.vao_id = gl.createVertexArray();
         this.vbo_id = gl.createBuffer();
@@ -10,11 +16,11 @@ class BasicMesh extends Mesh {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo_id);
         gl.bufferData(
             gl.ARRAY_BUFFER,
-            new Float32Array(vertices),
+            new Int8Array(vertices),
             gl.STATIC_DRAW
         );
         gl.enableVertexAttribArray(0);
-        gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(0, 3, gl.UNSIGNED_BYTE, false, 0, 0);
 
         //Texture Coords
         gl.bindBuffer(gl.ARRAY_BUFFER, this.tbo_id);
@@ -45,8 +51,6 @@ class BasicMesh extends Mesh {
 
         gl.bindVertexArray(this.vao_id);
 
-        gl.enableVertexAttribArray(0);
-        gl.enableVertexAttribArray(1);
         gl.drawElements(gl.TRIANGLES, this.index_count, gl.UNSIGNED_SHORT, 0);
     }
 

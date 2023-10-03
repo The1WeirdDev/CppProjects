@@ -1,26 +1,37 @@
 const express = require("express");
+const http = require("http");
 const fs = require("fs");
+const socket_io = require("socket.io");
 
-const server = express();
+const app = express();
+const server = http.createServer(app);
+const io = socket_io(server);
 const port = 7777;
+
+const Network = require("./Network");
 
 server.listen(port, (err, data) => {
     if (err) {
         console.log(`Error listening on port ${port} because of : ${error}`);
     } else {
         console.log(`Listening on port ${port}`);
+        Network.Init();
     }
 });
 
-server.get("*", (req, res) => {
+app.get("*", (req, res) => {
     var location = req.url;
     if (location == "/")
         location = "Client/Index.html";
 
-    if (location.startsWith("/"))
+    if (location.startsWith("/") && !location.startsWith("/socket"))
         location = location.slice(1);
 
     SendFileToUser(location, res);
+});
+
+io.on("connect", (socket) => {
+    Network.OnSocketConnected(socket);
 });
 
 function SendFileToUser(location, res) {

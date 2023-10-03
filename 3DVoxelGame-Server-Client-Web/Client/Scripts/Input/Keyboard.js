@@ -19,6 +19,7 @@ class Keyboard {
         }
 
         Keyboard.keys_to_update.length = 0;
+
     }
 
     static IsKeyPressed(key) {
@@ -29,6 +30,10 @@ class Keyboard {
     }
 
     static IsKeyDown(key) {
+        if (key == 27) {
+            Keyboard.keys = Keyboard.keys.fill(0, Keyboard.keys.length, 0);
+            return;
+        }
         if (key >= 0 && key < 400)
             return Keyboard.keys[key] > 0;
 

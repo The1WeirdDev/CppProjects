@@ -2,6 +2,7 @@ class Game {
     static player = null;
     static shader = null;
     static chunk_shader = null;
+    static non_local_player_shader = null;
     static world = null;
 
     static Init() {
@@ -14,26 +15,22 @@ class Game {
             `precision mediump float;\nvoid main(){gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);}`);
 
         Game.chunk_shader = new ChunkShader();
+        //Game.non_local_player_shader = new NonLocalPlayerShader();
 
-        Game.world = new World();
+        Game.world = new ServerWorld();
         Game.world.Init();
 
-        Game.player = new Player();
+        Game.player = new LocalPlayer();
         Game.player.Init();
-
-        Game.AddEventListeners();
-
-        Game.chunk_shader.Start();
-
-        var matrix1 = mat4.create();
-        matrix1 = mat4.perspective(matrix1, Mathf.ToRadians(75), Display.GetAspectRatio(), 0.01, 1000);
-        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.projection_matrix_location, matrix1);
-        Game.chunk_shader.Stop();
 
         canvas.width = innerWidth;
         canvas.height = innerHeight;
         gl.viewport(0, 0, innerWidth, innerHeight);
 
+        Game.AddEventListeners();
+        Game.CreateAndLoadProjectionMatrix();
+
+        Networking.Init();
         Time.Init();
     }
 
@@ -43,18 +40,28 @@ class Game {
         Mouse.Update();
         Time.Update();
 
-        var matrix1 = mat4.create();
-        matrix1 = mat4.perspective(matrix1, Mathf.ToRadians(75), Display.GetAspectRatio(), 0.01, 1000);
-        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.projection_matrix_location, matrix1);
-        Game.chunk_shader.Stop();
-
         Game.world.Update();
         Game.player.Update();
     }
 
     static Draw() {
         Game.world.Draw();
-        Game.player.Draw();
+        //Networking.Draw();
+        //Game.player.Draw();
+        //Frustom.IsPointInsideViewFrustom(0, 0, 0, Game.player.view_matrix);
+    }
+
+    static CreateAndLoadProjectionMatrix() {
+        Game.chunk_shader.Start();
+        var matrix1 = mat4.create();
+        matrix1 = mat4.perspective(matrix1, Mathf.ToRadians(75), Display.GetAspectRatio(), 0.001, 1000);
+        //mat4.translate(matrix1, matrix1, [0, 0, 0.5])
+        Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.projection_matrix_location, matrix1);
+        Game.chunk_shader.Stop();
+
+        //Game.non_local_player_shader.Start();
+        //Game.non_local_player_shader.LoadProjectionMatrix(matrix2);
+        //Game.non_local_player_shader.Stop();
     }
 
     static AddEventListeners() {
@@ -62,6 +69,8 @@ class Game {
             canvas.width = innerWidth;
             canvas.height = innerHeight;
             gl.viewport(0, 0, innerWidth, innerHeight);
+
+            Game.CreateAndLoadProjectionMatrix();
         });
 
         window.addEventListener("keydown", function (e) {

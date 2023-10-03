@@ -9,4 +9,13 @@ class ChunkShader extends Shader {
         this.view_matrix_location = this.GetUniformLocation("view_matrix");
         this.transformation_matrix_location = this.GetUniformLocation("transformation_matrix");
     }
+    LoadProjectionMatrix(matrix) {
+        this.LoadMatrix4x4(this.projection_matrix_location, matrix);
+    }
+    LoadViewMatrix(matrix) {
+        this.LoadMatrix4x4(this.view_matrix_location, matrix);
+    }
+    LoadTransformationMatrix(matrix) {
+        this.LoadMatrix4x4(this.transformation_matrix_location, matrix);
+    }
 }

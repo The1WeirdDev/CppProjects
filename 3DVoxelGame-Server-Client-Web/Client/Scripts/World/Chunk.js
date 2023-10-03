@@ -12,6 +12,7 @@ class Chunk {
     z = 0;
 
     block_data = null;
+    generated_block_data = false;
 
     //MeshData
     vertices = [];
@@ -21,8 +22,8 @@ class Chunk {
     vertex_index = 0;
     created = false;
 
-    static chunk_width = 10;
-    static chunk_height = 20;
+    static chunk_width = 16;
+    static chunk_height = 64;
     static chunk_layer_squared = Chunk.chunk_width * Chunk.chunk_width;
 
     constructor(world, x, z) {
@@ -39,6 +40,9 @@ class Chunk {
     }
 
     CreateBlockData() {
+        /*
+        This is called for local worlds
+        */
         for (var x = 0; x < Chunk.chunk_width; x++) {
             for (var z = 0; z < Chunk.chunk_width; z++) {
                 var global_x = x + (this.x * Chunk.chunk_width);
@@ -50,12 +54,24 @@ class Chunk {
                 }
             }
         }
+        this.generated_block_data = true;
+    }
+
+    SetChunkData(data) {
+        this.block_data = data;
+        this.generated_block_data = true;
     }
 
     CreateMeshData() {
         if (this.created) {
             this.mesh.CleanUp();
         }
+
+        this.vertices = [];
+        this.texture_coords = [];
+        this.indices = [];
+        this.vertex_index = 0;
+
         for (var x = 0; x < Chunk.chunk_width; x++) {
             for (var z = 0; z < Chunk.chunk_width; z++) {
                 for (var y = 0; y < Chunk.chunk_height; y++) {
@@ -250,12 +266,14 @@ class Chunk {
             var chunk = this.world.GetChunk(new_chunk_x, new_chunk_z);
 
             if (chunk) {
-                var bx = Math.abs(x - (offset_x * Chunk.chunk_width));
-                var bz = Math.abs(z - (offset_z * Chunk.chunk_width));
-                return chunk.GetBlock(bx, y, bz);
+                if (chunk.generated_block_data) {
+                    var bx = Math.abs(x - (offset_x * Chunk.chunk_width));
+                    var bz = Math.abs(z - (offset_z * Chunk.chunk_width));
+                    return chunk.GetBlock(bx, y, bz);
+                }
             }
         }
-        return 1;
+        return 0;
     }
     SetBlock(x, y, z, id) {
         if (Chunk.IsBlockInChunk(x, y, z))

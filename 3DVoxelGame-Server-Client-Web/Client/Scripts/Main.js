@@ -6,6 +6,7 @@ var cursor_locked = false;
 var simplex = new SimplexNoise(Math);
 function Main() {
     Init();
+    //setInterval(Update, 1000 / 15);
     Update();
     /*
     Pretty sure javascript just discards all of its resources
