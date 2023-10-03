@@ -54,9 +54,6 @@
     <Content Include="Client\Scripts\Libs\SimplexNoise.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Client\Scripts\Libs\Socket.io.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Client\Scripts\Main.js">
       <SubType>Code</SubType>
     </Content>
@@ -88,6 +85,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\Rendering\Shaders\ChunkShader.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Rendering\Shaders\NonLocalPlayerShader.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\Rendering\Texture.js">
