@@ -40,14 +40,37 @@ class LocalPlayer extends Entity {
         this.CalculateMatrices();
 
         if (Keyboard.IsKeyPressed(69)) {
-            Game.world.SetBlock(this.position.x, this.position.y - 1, this.position.z, 0);
+            this.PlaceBlock(0);
         }
 
         //Networking.SendPacket("SetPosition", [this.position.x, this.position.y, this.position.z]);
     }
+    PlaceBlock(id) {
+        var reach = 0;
+        var max_reach = 8;
+        var increment = 0.15;
+
+        var yaw = Mathf.ToRadians(this.rotation.y);
+        var pitch = Mathf.ToRadians(this.rotation.x);
+
+        while (reach <= max_reach) {
+            //Getting position
+            var pos_x = this.position.x + ((Math.cos(pitch) * Math.sin(yaw)) * reach);
+            var pos_y = this.position.y - (Math.sin(pitch) * reach);
+            var pos_z = this.position.z - ((Math.cos(pitch) * Math.cos(yaw)) * reach);
+
+            //Checking if block is there
+            var block = Game.world.GetBlock(pos_x, pos_y, pos_z);
+            if (block != 0) {
+                Game.world.SetBlock(pos_x, pos_y, pos_z, id);
+                break;
+            }
+            reach += increment;
+        }
+    }
     CheckForMovement() {
         var width = 0.15;
-        var y_check = 0.59;
+        var y_check = 0.55;
         var height = 0.6;
         this.movement_direction = new Vector3();
         if (Keyboard.IsKeyDown(83)) {
@@ -69,6 +92,7 @@ class LocalPlayer extends Entity {
 
         this.velocity += this.gravity * Time.delta_time;
 
+        var floored_x = Math.floor(this.position.x);
         var floored_y = Math.floor(this.position.y);
         var floored_z = Math.floor(this.position.z);
 
@@ -78,29 +102,29 @@ class LocalPlayer extends Entity {
             var closest_forwards = 1;
             var closest_backwards = -1
 
-            var left_floored_x = Math.floor(this.position.x);
-            var right_floored_x = Math.floor(this.position.x);
+            //Left Right
             if (this.movement_direction.x > 0) {
-                for (var x = left_floored_x; x < left_floored_x + 5; x++) {
+                for (var x = floored_x; x < floored_x + 5; x++) {
                     if (Game.world.GetBlock(x, this.position.y - y_check, this.position.z)) {
                         closest_right = x - this.position.x - this.movement_direction.x - width;
                         break;
                     }
                 }
-                if ((closest_right > 0 && this.movement_direction.x > 0))
+                if ((closest_right > 0))
                     this.position.x += Mathf.Clamp(this.movement_direction.x, 0, closest_right);
             }
             else {
-                for (var x = right_floored_x; x > right_floored_x - 5; x--) {
+                for (var x = floored_x; x > floored_x - 5; x--) {
                     if (Game.world.GetBlock(x, this.position.y - y_check, this.position.z)) {
                         closest_left = x - this.position.x - this.movement_direction.x + 1 + width;
                         break;
                     }
                 }
-                if ((closest_left < 0 && this.movement_direction.x < 0))
+                if ((closest_left < 0))
                     this.position.x += Mathf.Clamp(this.movement_direction.x, closest_left, 0);
             }
 
+            //Forwards backwards
             if (this.movement_direction.y > 0) {
                 for (var z = floored_z; z < floored_z + 5; z++) {
                     if (Game.world.GetBlock(this.position.x, this.position.y, z)) {
@@ -108,6 +132,8 @@ class LocalPlayer extends Entity {
                         break;
                     }
                 }
+                if ((closest_forwards > 0))
+                    this.position.z += Mathf.Clamp(this.movement_direction.y, 0, closest_forwards);
             }
             else {
                 for (var z = floored_z; z > floored_z - 5; z--) {
@@ -116,10 +142,12 @@ class LocalPlayer extends Entity {
                         break;
                     }
                 }
+                if ((closest_backwards < 0))
+                    this.position.z += Mathf.Clamp(this.movement_direction.y, closest_backwards, 0);
             }
 
-            if ((closest_backwards < 0 && this.movement_direction.y < 0) || (closest_forwards > 0 && this.movement_direction.y > 0))
-                this.position.z += Mathf.Clamp(this.movement_direction.y, closest_backwards, closest_forwards);
+            //if ((closest_backwards < 0 && this.movement_direction.y < 0) || (closest_forwards > 0 && this.movement_direction.y > 0))
+            //    this.position.z += Mathf.Clamp(this.movement_direction.y, closest_backwards, closest_forwards);
 
         }
         var closest_up = 1;
@@ -140,7 +168,7 @@ class LocalPlayer extends Entity {
             }
         }
         this.is_grounded = false;
-        if (closest_down > -0.05) {
+        if (closest_down > 0) {
             if (Keyboard.IsKeyDown(32)) {
                 this.velocity = Math.sqrt(5.0 * -2.0 * this.gravity);
                 movement_velocity = this.velocity * Time.delta_time;

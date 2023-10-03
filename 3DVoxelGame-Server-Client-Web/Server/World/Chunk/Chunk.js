@@ -28,8 +28,12 @@ class Chunk {
                 var global_block_z = z + global_z;
                 var perlin = this.world.simplex.noise((global_block_x + 0.25) / 20, (global_block_z + 0.25) / 20);
                 var height = Math.floor(perlin * 5) + 5;
+
                 for (var y = 0; y < height; y++) {
-                    this.SetBlock(x, y, z, 1);
+                    if(y < height - 1)
+                        this.SetBlock(x, y, z, 1);
+                    else
+                        this.SetBlock(x, y, z, 2);
                 }
             }
         }

@@ -75,24 +75,26 @@ class Chunk {
         for (var x = 0; x < Chunk.chunk_width; x++) {
             for (var z = 0; z < Chunk.chunk_width; z++) {
                 for (var y = 0; y < Chunk.chunk_height; y++) {
-                    if (this.GetBlock(x, y, z) == 1) {
+                    var block = this.GetBlock(x, y, z);//Int value
+                    var current_block = this.world.GetBlockFromId(block);//Block class
+                    if (block != 0) {
                         if (this.GetBlock(x, y + 1, z) == 0)
-                            this.AddFace(x, y, z, 0, BlockDirection.Up);
+                            this.AddFace(x, y, z, current_block.top_texture, BlockDirection.Up);
 
                         if (this.GetBlock(x, y - 1, z, true) == 0)
-                            this.AddFace(x, y, z, 0, BlockDirection.Down);
+                            this.AddFace(x, y, z, current_block.bottom_texture, BlockDirection.Down);
 
                         if (this.GetBlock(x, y, z + 1, true) == 0)
-                            this.AddFace(x, y, z, 1, BlockDirection.North);
+                            this.AddFace(x, y, z, current_block.front_texture, BlockDirection.North);
 
                         if (this.GetBlock(x, y, z - 1, true) == 0)
-                            this.AddFace(x, y, z, 1, BlockDirection.South);
+                            this.AddFace(x, y, z, current_block.back_texture, BlockDirection.South);
 
                         if (this.GetBlock(x + 1, y, z, true) == 0)
-                            this.AddFace(x, y, z, 1, BlockDirection.East);
+                            this.AddFace(x, y, z, current_block.left_texture, BlockDirection.East);
 
                         if (this.GetBlock(x - 1, y, z, true) == 0)
-                            this.AddFace(x, y, z, 1, BlockDirection.West);
+                            this.AddFace(x, y, z, current_block.right_texture, BlockDirection.West);
                     }
                 }
             }

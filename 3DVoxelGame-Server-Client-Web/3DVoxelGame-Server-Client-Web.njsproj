@@ -78,6 +78,9 @@
     <Content Include="Client\Scripts\Input\Mouse.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Client\Scripts\Rendering\Meshes\ChunkMesh.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Client\Scripts\Rendering\Meshes\PlayerMesh.js">
       <SubType>Code</SubType>
     </Content>
@@ -100,6 +103,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\Utils\Vector.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\World\Block.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\World\Chunk.js">

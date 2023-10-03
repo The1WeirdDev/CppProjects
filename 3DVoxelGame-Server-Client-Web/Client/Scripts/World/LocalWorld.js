@@ -3,6 +3,10 @@ class LocalWorld extends World{
 
     texture_id = null;
 
+    constructor() {
+        super();
+    }
+
     Init() {
         this.chunks = new Map();
 
