@@ -60,7 +60,7 @@ class LocalPlayer extends Entity {
         while (reach <= max_reach) {
             //Getting position
             var pos_x = this.position.x + ((Math.cos(pitch) * Math.sin(yaw)) * reach);
-            var pos_y = this.position.y - (Math.sin(pitch) * reach);
+            var pos_y = this.position.y + 1 - (Math.sin(pitch) * reach);
             var pos_z = this.position.z - ((Math.cos(pitch) * Math.cos(yaw)) * reach);
 
             //Checking if block is there
@@ -111,28 +111,50 @@ class LocalPlayer extends Entity {
             var closest_left = -1;
             var closest_right = 1;
             var closest_forwards = 1;
-            var closest_backwards = -1
+            var closest_backwards = -1;
+            var min_1 = -1;
+            var min_2 = -2;
+            var max_1 = 1;
+            var max_2 = 1;
 
             //Left Right
             if (this.movement_direction.x > 0) {
                 for (var x = floored_x; x < floored_x + 5; x++) {
                     if (Game.world.GetBlock(x, this.position.y - y_check, this.position.z)) {
                         closest_right = x - this.position.x - this.movement_direction.x - width;
+                        max_1 = closest_right;
                         break;
                     }
                 }
-                if ((closest_right > 0))
-                    this.position.x += Mathf.Clamp(this.movement_direction.x, 0, closest_right);
+                for (var x = floored_x; x < floored_x + 5; x++) {
+                    if (Game.world.GetBlock(x, this.position.y - y_check + 1, this.position.z)) {
+                        closest_right = x - this.position.x - this.movement_direction.x - width;
+                        max_2 = closest_right;
+                        break;
+                    }
+                }
+                var amount = Math.min(max_1, max_2);
+                if ((amount > 0))
+                    this.position.x += Mathf.Clamp(this.movement_direction.x, 0, amount);
             }
             else if (this.movement_direction.x < 0) {
                 for (var x = floored_x; x > floored_x - 5; x--) {
                     if (Game.world.GetBlock(x, this.position.y - y_check, this.position.z)) {
                         closest_left = x - this.position.x - this.movement_direction.x + 1 + width;
+                        min_1 = closest_left;
                         break;
                     }
                 }
-                if ((closest_left < 0))
-                    this.position.x += Mathf.Clamp(this.movement_direction.x, closest_left, 0);
+                for (var x = floored_x; x > floored_x - 5; x--) {
+                    if (Game.world.GetBlock(x, this.position.y - y_check + 1, this.position.z)) {
+                        closest_left = x - this.position.x - this.movement_direction.x + 1 + width;
+                        min_2 = closest_left;
+                        break;
+                    }
+                }
+                var amount = Math.max(min_1, min_2);
+                if ((amount < 0))
+                    this.position.x += Mathf.Clamp(this.movement_direction.x, amount, 0);
             }
 
             //Forwards backwards
@@ -140,21 +162,39 @@ class LocalPlayer extends Entity {
                 for (var z = floored_z; z < floored_z + 5; z++) {
                     if (Game.world.GetBlock(this.position.x, this.position.y, z)) {
                         closest_forwards = z - this.position.z - this.movement_direction.y - width;
+                        max_1 = closest_forwards;
                         break;
                     }
                 }
-                if ((closest_forwards > 0))
-                    this.position.z += Mathf.Clamp(this.movement_direction.y, 0, closest_forwards);
+                for (var z = floored_z; z < floored_z + 5; z++) {
+                    if (Game.world.GetBlock(this.position.x, this.position.y + 1, z)) {
+                        closest_forwards = z - this.position.z - this.movement_direction.y - width;
+                        max_2 = closest_forwards;
+                        break;
+                    }
+                }
+                var amount = Math.min(max_1, max_2);
+                if ((amount > 0))
+                    this.position.z += Mathf.Clamp(this.movement_direction.y, 0, amount);
             }
             else if (this.movement_direction.y < 0) {
                 for (var z = floored_z; z > floored_z - 5; z--) {
                     if (Game.world.GetBlock(this.position.x, this.position.y, z)) {
                         closest_backwards = z - this.position.z - this.movement_direction.y + 1 + width;
+                        min_1 = closest_backwards;
                         break;
                     }
                 }
-                if ((closest_backwards < 0))
-                    this.position.z += Mathf.Clamp(this.movement_direction.y, closest_backwards, 0);
+                for (var z = floored_z; z > floored_z - 5; z--) {
+                    if (Game.world.GetBlock(this.position.x, this.position.y + 1, z)) {
+                        closest_backwards = z - this.position.z - this.movement_direction.y + 1 + width;
+                        min_2 = closest_backwards;
+                        break;
+                    }
+                }
+                var amount = Math.max(min_1, min_2);
+                if ((amount < 0))
+                    this.position.z += Mathf.Clamp(this.movement_direction.y, amount, 0);
             }
         }
         var closest_up = 1;
@@ -232,8 +272,8 @@ class LocalPlayer extends Entity {
         mat4.rotate(this.view_matrix, this.view_matrix, Mathf.ToRadians(this.rotation.y), [0, 1, 0]);
         mat4.rotate(this.view_matrix_frustom, this.view_matrix_frustom, Mathf.ToRadians(this.rotation.y), [0, 1, 0]);
 
-        mat4.translate(this.view_matrix, this.view_matrix, [-this.position.x, -this.position.y, -this.position.z]);
-        mat4.translate(this.view_matrix_frustom, this.view_matrix_frustom, [-(this.position.x - offset_x), -(this.position.y + offset_y), -(this.position.z + offset_z)]);
+        mat4.translate(this.view_matrix, this.view_matrix, [-this.position.x, -this.position.y - 1, -this.position.z]);
+        mat4.translate(this.view_matrix_frustom, this.view_matrix_frustom, [-(this.position.x - offset_x), -(this.position.y + 1 + offset_y), -(this.position.z + offset_z)]);
         //this.view_matrix = matrix;
 
         //Game.chunk_shader.Start();
