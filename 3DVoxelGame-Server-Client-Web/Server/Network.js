@@ -1,5 +1,7 @@
 const Player = require("./Player");
 const World = require("./World/World.js");
+const Chunk = require("./World/Chunk/Chunk.js");
+
 class Network {
     static players = [];
     static world = null;
@@ -13,11 +15,26 @@ class Network {
         var player = new Player(this, socket);
         Network.players.push(player);
 
+        console.log(socket.id + " Connected");
+        Network.BroadcastWithException("PlayerJoined", [player.user_id], player.user_id);
+
         socket.on("GetPlayerList", () => {
             var list = [];
-            for (var i = 0; i < Network.players.length; i++)
-                list.push(Network.players[i].user_id);
+            for (var i = 0; i < Network.players.length; i++) {
+                var plr = Network.players[i];
+                if (plr.user_id != player.user_id) {
+                    list.push(Network.players[i].user_id);
+                }
+            }
             socket.emit("SetPlayerList", list);
+        });
+
+        socket.on("SetBlock", (x, y, z, id) => {
+            var chunk_x = Math.floor(x / Chunk.chunk_width);
+            var chunk_z = Math.floor(z / Chunk.chunk_width);
+            var chunk = this.world.GetChunk(chunk_x, chunk_z);
+            this.world.SetBlock(x, y, z, id);
+            Network.Broadcast("ReceivedChunkData", [chunk_x, chunk_z, chunk.block_data]);
         });
 
         socket.on("GetChunk", (x, z) => {
@@ -58,6 +75,8 @@ class Network {
     }
 
     static OnSocketDisconnected(player) {
+        console.log(player.socket.id + " Disconnected");
+        Network.Broadcast("PlayerLeft", player.user_id);
         var index = Network.players.indexOf(player);
 
         if (index >= 0) {

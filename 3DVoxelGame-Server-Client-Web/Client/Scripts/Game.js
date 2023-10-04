@@ -29,7 +29,9 @@ class Game {
         Game.AddEventListeners();
         Game.CreateAndLoadProjectionMatrix();
 
-        Networking.Init();
+        if (Game.world.world_type == WorldType.Server) {
+            Networking.Init();
+        }
         Time.Init();
     }
 
@@ -44,13 +46,13 @@ class Game {
     }
 
     static Draw() {
-        gl.enable(gl.CULL_FACE);
         Game.chunk_shader.PreDraw();
         Game.world.Draw();
 
-        gl.disable(gl.CULL_FACE);
-        Game.non_local_player_shader.PreDraw();
-        Networking.Draw();
+        if (Game.world.world_type == WorldType.Server) {
+            Game.non_local_player_shader.PreDraw();
+            Networking.Draw();
+        }
 
         Game.player.Draw();
         //Frustom.IsPointInsideViewFrustom(0, 0, 0, Game.player.view_matrix);

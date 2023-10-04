@@ -10,6 +10,8 @@ class Chunk {
     world = null;
     x = 0;
     z = 0;
+    global_x = 0;
+    global_z = 0;
 
     block_data = null;
     generated_block_data = false;
@@ -23,20 +25,22 @@ class Chunk {
     created = false;
 
     static chunk_width = 16;
-    static chunk_height = 64;
+    static chunk_height = 256;
     static chunk_layer_squared = Chunk.chunk_width * Chunk.chunk_width;
 
     constructor(world, x, z) {
         this.world = world;
         this.x = x;
         this.z = z;
+        this.global_x = this.x * Chunk.chunk_width;
+        this.global_z = this.z * Chunk.chunk_width;
 
         this.block_data = new Array(Chunk.chunk_width * Chunk.chunk_height * Chunk.chunk_width);
         this.block_data.fill(0, 0, this.block_data.length);
 
         this.mesh = new ChunkMesh();
         this.transformation_matrix = mat4.create();
-        this.transformation_matrix = mat4.translate(this.transformation_matrix, this.transformation_matrix, [this.x * Chunk.chunk_width, 0, this.z * Chunk.chunk_width]);
+        this.transformation_matrix = mat4.translate(this.transformation_matrix, this.transformation_matrix, [this.global_x, 0, this.global_z]);
     }
 
     CreateBlockData() {
@@ -45,8 +49,8 @@ class Chunk {
         */
         for (var x = 0; x < Chunk.chunk_width; x++) {
             for (var z = 0; z < Chunk.chunk_width; z++) {
-                var global_x = x + (this.x * Chunk.chunk_width);
-                var global_z = z + (this.z * Chunk.chunk_width);
+                var global_x = x + this.global_x;
+                var global_z = z + this.global_z;
                 var perlin = simplex.noise((global_x + 0.25) / 20, (global_z + 0.25) / 20);
                 var height = Math.floor(perlin * 5) + 5;
                 for (var y = 0; y < height; y++) {

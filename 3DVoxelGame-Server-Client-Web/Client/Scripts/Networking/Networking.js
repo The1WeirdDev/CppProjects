@@ -12,9 +12,9 @@ class Networking {
 
             Networking.socket.on("SetPlayerList", (players) => {
                 for (var i = 0; i < players.length; i++) {
-                    console.log(players[i]);
                     var player = new NonLocalPlayer(players[i]);
                     Networking.players.push(player);
+                    console.log("Creating player");
                 }
             })
 
@@ -22,10 +22,31 @@ class Networking {
                 var player = Networking.GetPlayerFromUserId(id);
 
                 if (player) {
-                    console.log("Setting position");
+                    console.log("Setting Positions");
                     player.SetPosition(x, y, z);
                 } else {
-                    console.log("Coudlnt get player with id of " + id);
+                    console.log("Creating player that doesnt exist");
+                    var player = new NonLocalPlayer(id);
+                    Networking.players.push(player);
+                }
+            });
+
+            Networking.socket.on("PlayerJoined", (id) => {
+                if (this.GetPlayerFromUserId(id) == null) {
+                    console.log("Joined");
+                    var player = new NonLocalPlayer(id);
+                    Networking.players.push(player);
+                }
+            });
+
+            Networking.socket.on("PlayerLeft", (id) => {
+                for (var i = 0; i < Networking.players.length; i++) {
+                    var player = Networking.players[i];
+                    if (player.user_id == id) {
+                        console.log("Left");
+                        Networking.players.splice(i, 1);
+                        break;
+                    }
                 }
             });
 

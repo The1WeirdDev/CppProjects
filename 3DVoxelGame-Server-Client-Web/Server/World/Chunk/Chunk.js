@@ -6,7 +6,7 @@ class Chunk {
     block_data = [];
 
     static chunk_width = 16;
-    static chunk_height = 64;
+    static chunk_height = 256;
     static chunk_layer_squared = Chunk.chunk_width * Chunk.chunk_width;
 
     constructor(world, x, z) {
@@ -27,7 +27,7 @@ class Chunk {
                 var global_block_x = x + global_x;
                 var global_block_z = z + global_z;
                 var perlin = this.world.simplex.noise((global_block_x + 0.25) / 20, (global_block_z + 0.25) / 20);
-                var height = Math.floor(perlin * 5) + 5;
+                var height = Math.floor(perlin * 10) + 50;
 
                 for (var y = 0; y < height; y++) {
                     if(y < height - 1)

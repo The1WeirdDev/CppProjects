@@ -10,7 +10,7 @@ class LocalPlayer extends Entity {
 
     Init() {
         this.movement_direction = new Vector2();
-        this.position.y = 20;
+        this.position.y = Chunk.chunk_height;
 
         canvas.addEventListener("click", async () => {
             await canvas.requestPointerLock({
@@ -22,6 +22,9 @@ class LocalPlayer extends Entity {
             }, false);
         });
         document.body.style.cursor = 'none';
+        /*
+        view_matrix_frustom is just the view matrix without pitch rotation
+        */
     }
 
     Update() {
@@ -43,7 +46,8 @@ class LocalPlayer extends Entity {
             this.PlaceBlock(0);
         }
 
-        Networking.SendPacket("SetPosition", [this.position.x, this.position.y, this.position.z]);
+        if(Game.world.world_type == WorldType.Server)
+            Networking.SendPacket("SetPosition", [this.position.x, this.position.y, this.position.z]);
     }
     PlaceBlock(id) {
         var reach = 0;
@@ -62,7 +66,11 @@ class LocalPlayer extends Entity {
             //Checking if block is there
             var block = Game.world.GetBlock(pos_x, pos_y, pos_z);
             if (block != 0) {
-                Game.world.SetBlock(pos_x, pos_y, pos_z, id);
+                if (Game.world.world_type == WorldType.Client)
+                    Game.world.SetBlock(pos_x, pos_y, pos_z, id);
+                else {
+                    Networking.SendPacket("SetBlock", [pos_x, pos_y, pos_z, id]);
+                }
                 break;
             }
             reach += increment;
@@ -70,9 +78,12 @@ class LocalPlayer extends Entity {
     }
     CheckForMovement() {
         var width = 0.15;
-        var y_check = 0.55;
+        var y_check = 0.3;
         var height = 0.6;
-        this.movement_direction = new Vector3();
+
+        this.movement_direction.x = 0;
+        this.movement_direction.y = 0;
+
         if (Keyboard.IsKeyDown(83)) {
             this.movement_direction.x -= Math.sin(Mathf.ToRadians(this.rotation.y)) * this.speed * Time.delta_time;
             this.movement_direction.y += Math.cos(Mathf.ToRadians(this.rotation.y)) * this.speed * Time.delta_time;
@@ -197,14 +208,32 @@ class LocalPlayer extends Entity {
         this.rotation.y += movement_x * 0.05;
         this.rotation.x += movement_y * 0.05;
 
+        if (this.rotation.y < 360)
+            this.rotation.y += 360;
+        if (this.rotation.y >= 360)
+            this.rotation.y -= 360;
+
         this.rotation.x = Mathf.Clamp(this.rotation.x, -90, 90);
     }
 
     CalculateMatrices() {
         this.view_matrix = mat4.create();
+        this.view_matrix_frustom = mat4.create();
+
+        var yaw = Mathf.ToRadians(this.rotation.y);
+        var pitch = Mathf.ToRadians(this.rotation.x);
+
+        var offset_x = ((Math.cos(pitch) * Math.sin(yaw)) * 60);
+        var offset_y = (Math.sin(pitch) * 60);
+        var offset_z = ((Math.cos(pitch) * Math.cos(yaw)) * 60);
+
         mat4.rotate(this.view_matrix, this.view_matrix, Mathf.ToRadians(this.rotation.x), [1, 0, 0]);
+        mat4.rotate(this.view_matrix_frustom, this.view_matrix_frustom, Mathf.ToRadians(this.rotation.x), [1, 0, 0]);
         mat4.rotate(this.view_matrix, this.view_matrix, Mathf.ToRadians(this.rotation.y), [0, 1, 0]);
+        mat4.rotate(this.view_matrix_frustom, this.view_matrix_frustom, Mathf.ToRadians(this.rotation.y), [0, 1, 0]);
+
         mat4.translate(this.view_matrix, this.view_matrix, [-this.position.x, -this.position.y, -this.position.z]);
+        mat4.translate(this.view_matrix_frustom, this.view_matrix_frustom, [-(this.position.x - offset_x), -(this.position.y + offset_y), -(this.position.z + offset_z)]);
         //this.view_matrix = matrix;
 
         //Game.chunk_shader.Start();

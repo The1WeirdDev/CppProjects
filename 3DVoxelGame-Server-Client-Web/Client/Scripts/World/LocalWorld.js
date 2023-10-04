@@ -4,7 +4,7 @@ class LocalWorld extends World{
     texture_id = null;
 
     constructor() {
-        super();
+        super(WorldType.Client);
     }
 
     Init() {
