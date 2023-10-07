@@ -33,8 +33,10 @@ class Network {
             var chunk_x = Math.floor(x / Chunk.chunk_width);
             var chunk_z = Math.floor(z / Chunk.chunk_width);
             var chunk = this.world.GetChunk(chunk_x, chunk_z);
-            this.world.SetBlock(x, y, z, id);
-            Network.Broadcast("ReceivedChunkData", [chunk_x, chunk_z, chunk.block_data]);
+            if (chunk) {
+                this.world.SetBlock(x, y, z, id);
+                Network.Broadcast("ReceivedChunkData", [chunk_x, chunk_z, chunk.block_data]);
+            }
         });
 
         socket.on("GetChunk", (x, z) => {

@@ -31,6 +31,7 @@ class ServerWorld extends World {
     CreateMeshes() {
         for (var i = 0; i < this.chunks_meshes_to_create.length; i++) {
             this.chunks_meshes_to_create[i].CreateMeshData();
+            this.chunks_meshes_to_create[i].CreateMesh();
         }
 
         this.chunks_meshes_to_create = [];
@@ -163,7 +164,8 @@ class ServerWorld extends World {
             return;
 
         var index = this.chunks_meshes_to_create.indexOf(chunk);
-        if (index < 0)
+        if (index < 0) {
             this.chunks_meshes_to_create.push(chunk);
+        }
     }
 }

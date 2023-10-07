@@ -6,6 +6,7 @@ const BlockDirection = {
     North:4,
     South:5
 }
+
 class Chunk {
     world = null;
     x = 0;
@@ -15,6 +16,7 @@ class Chunk {
 
     block_data = null;
     generated_block_data = false;
+    created_mesh_data = false;
 
     //MeshData
     vertices = [];
@@ -67,10 +69,6 @@ class Chunk {
     }
 
     CreateMeshData() {
-        if (this.created) {
-            this.mesh.CleanUp();
-        }
-
         this.vertices = [];
         this.texture_coords = [];
         this.indices = [];
@@ -103,6 +101,14 @@ class Chunk {
                 }
             }
         }
+        this.created_mesh_data = true;
+    }
+
+    CreateMesh() {
+        if (this.created) {
+            this.mesh.CleanUp();
+        }
+
         this.mesh.CreateMesh(this.vertices, this.texture_coords, this.indices);
         this.created = true;
     }

@@ -11,6 +11,8 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "2DVoxelGame-Server-Client-W
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "3DVoxelGame-Server-Client-Web", "3DVoxelGame-Server-Client-Web\3DVoxelGame-Server-Client-Web.njsproj", "{CBC11692-6859-4BD5-AB2E-1E531D00AA3E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nes Emulator", "Nes Emulator\Nes Emulator.vcxproj", "{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{CBC11692-6859-4BD5-AB2E-1E531D00AA3E}.Release|x64.Build.0 = Release|Any CPU
 		{CBC11692-6859-4BD5-AB2E-1E531D00AA3E}.Release|x86.ActiveCfg = Release|Any CPU
 		{CBC11692-6859-4BD5-AB2E-1E531D00AA3E}.Release|x86.Build.0 = Release|Any CPU
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Debug|Any CPU.Build.0 = Debug|x64
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Debug|x64.ActiveCfg = Debug|x64
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Debug|x64.Build.0 = Debug|x64
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Debug|x86.ActiveCfg = Debug|Win32
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Debug|x86.Build.0 = Debug|Win32
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Release|Any CPU.ActiveCfg = Release|x64
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Release|Any CPU.Build.0 = Release|x64
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Release|x64.ActiveCfg = Release|x64
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Release|x64.Build.0 = Release|x64
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Release|x86.ActiveCfg = Release|Win32
+		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

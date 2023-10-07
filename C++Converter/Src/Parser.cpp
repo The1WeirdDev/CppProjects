@@ -66,7 +66,7 @@ void Parser::Parse() {
 					}
 
 					VariableData data = variable_data[(const char*)next_2.data];
-					std::cout << "Code Says: " << (data.type == Type::Int ? std::to_string((int)data.data).c_str() : ((const char*)data.data));
+					std::cout << "Code Says: " << (data.type == Type::Int ? std::to_string((int)data.data).c_str() : ((const char*)data.data)) << std::endl;
 					token_index += 4;
 				}
 				else {
@@ -104,10 +104,19 @@ void Parser::Parse() {
 				printf("Variable {%s} set to {%d}\n", variable_name, (int)next_3.data);
 				token_index += 4;
 			}
+			else if (keyword == "if") {
+				Token next_1 = GetToken(token_index + 1);
+				if (next_1.type != Type::Identifier && next_1.type != Type::Int && next_1.type != Type::String) {
+					printf("Syntax Error. Expected Identifier, Integer, or String\n");
+					std::exit(-1);
+				}
+
+				Token next_2 = GetToken(token_index + 2);
+			}
 			break;
 		}
 		default:
-			printf("Syntax Error\n");
+			printf("Syntax Error %s\n", (char*)current_token.data);
 			std::exit(-1);
 		}
 	}

@@ -25,6 +25,8 @@ Tokenizer::Tokenizer(const char* location) {
 		if (IsIdentifierCharacter(current_character, false)) {
 			std::string identifier(1, current_character);
 
+			//Checking if next character is a identifer character
+			//If so add it to the identifier
 			while (true) {
 				if (IsIdentifierCharacter(GetNextChar(), true)) {
 					identifier += GetNextChar();
@@ -77,8 +79,11 @@ Tokenizer::Tokenizer(const char* location) {
 				break;
 			}
 			//Potential Memory Leak
+			//Forgor why size is getting multiplied by 2
+			//Creating char array because string gets destroyed after scope
+			//So we create data on the heap and copy string into it
 			char* p2 = new char[string_data.size()];
-			strcpy_s(p2, string_data.size() *2, string_data.c_str());
+			strcpy_s(p2, string_data.size() * 2, string_data.c_str());
 			AddToken(Type::String, (void*)(p2));
 			break;
 		}
@@ -121,7 +126,7 @@ Tokenizer::Tokenizer(const char* location) {
 }
 
 Type Tokenizer::CheckIfKeyword(std::string data) {
-	if (data == "print" || data == "void" || data == "var") {
+	if (data == "print" || data == "void" || data == "var" || data == "if") {
 		return Type::Keyword;
 	}
 	return Type::Identifier;

@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{42cd5303-0ffb-4530-8c58-266e0054c18b}</ProjectGuid>
-    <RootNamespace>CConverter</RootNamespace>
+    <ProjectGuid>{21d4c7f9-aef3-45ef-ad3c-f68a55354a6f}</ProjectGuid>
+    <RootNamespace>NesEmulator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -71,20 +71,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IntDir>../int/$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
     <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>../int/$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>../int/$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
     <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>../int/$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IntDir>../int/$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
     <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>../int/$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>../int/$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
     <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>../int/$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -143,18 +143,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractSyntaxTree.cpp" />
-    <ClCompile Include="Src\Parser.cpp" />
+    <ClCompile Include="Src\Bus.cpp" />
+    <ClCompile Include="Src\CPU6502.cpp" />
     <ClCompile Include="Src\Main.cpp" />
-    <ClCompile Include="Src\Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractSyntaxTree.h" />
-    <ClInclude Include="Src\Parser.h" />
-    <ClInclude Include="Src\Tokenizer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Res\Test.txt" />
+    <ClInclude Include="Src\Bus.h" />
+    <ClInclude Include="Src\CPU6502.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

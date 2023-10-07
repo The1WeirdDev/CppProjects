@@ -81,6 +81,9 @@
     <Content Include="Client\Scripts\Rendering\Meshes\PlayerMesh.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Client\Scripts\Rendering\Meshes\UIFrameMesh.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Client\Scripts\Rendering\Shader.js">
       <SubType>Code</SubType>
     </Content>
@@ -91,6 +94,15 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\Rendering\Texture.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Rendering\UI\Frame.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Rendering\UI\UI.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Client\Scripts\Rendering\UI\UIManager.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Client\Scripts\Utils\Frustom.js">
@@ -154,6 +166,7 @@
     <Folder Include="Client\Scripts\Libs\" />
     <Folder Include="Client\Scripts\Input\" />
     <Folder Include="Client\Scripts\Rendering\Meshes\" />
+    <Folder Include="Client\Scripts\Rendering\UI\" />
     <Folder Include="Client\Scripts\Rendering\Shaders\" />
     <Folder Include="Client\Scripts\World\" />
     <Folder Include="Client\Scripts\Utils\" />

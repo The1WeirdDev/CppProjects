@@ -32,6 +32,7 @@ class Game {
         if (Game.world.world_type == WorldType.Server) {
             Networking.Init();
         }
+        UIManager.Init();
         Time.Init();
     }
 
@@ -40,6 +41,7 @@ class Game {
         Keyboard.Update();
         Mouse.Update();
         Time.Update();
+        UIManager.Update();
 
         Game.world.Update();
         Game.player.Update();

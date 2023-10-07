@@ -43,19 +43,26 @@ class LocalPlayer extends Entity {
         this.CalculateMatrices();
 
         if (Keyboard.IsKeyPressed(69)) {
-            this.PlaceBlock(0);
+            this.PlaceOrDestroyBlock(true, 0);
+        }
+        if (Keyboard.IsKeyPressed(82)) {
+            this.PlaceOrDestroyBlock(false, 1);
         }
 
         if(Game.world.world_type == WorldType.Server)
             Networking.SendPacket("SetPosition", [this.position.x, this.position.y, this.position.z]);
     }
-    PlaceBlock(id) {
+    PlaceOrDestroyBlock(destroy, id) {
         var reach = 0;
         var max_reach = 8;
         var increment = 0.15;
 
         var yaw = Mathf.ToRadians(this.rotation.y);
         var pitch = Mathf.ToRadians(this.rotation.x);
+
+        var last_pos_x = this.position.x;
+        var last_pos_y = this.position.y;
+        var last_pos_z = this.position.z;
 
         while (reach <= max_reach) {
             //Getting position
@@ -65,14 +72,32 @@ class LocalPlayer extends Entity {
 
             //Checking if block is there
             var block = Game.world.GetBlock(pos_x, pos_y, pos_z);
-            if (block != 0) {
-                if (Game.world.world_type == WorldType.Client)
-                    Game.world.SetBlock(pos_x, pos_y, pos_z, id);
-                else {
-                    Networking.SendPacket("SetBlock", [pos_x, pos_y, pos_z, id]);
+            if (destroy) {
+                if (block != 0) {
+                    if (Game.world.world_type == WorldType.Client)
+                        Game.world.SetBlock(pos_x, pos_y, pos_z, id);
+                    else
+                        Networking.SendPacket("SetBlock", [pos_x, pos_y, pos_z, id]);
+                    break;
                 }
-                break;
+            } else {
+                if (block != 0) {
+                    var floored_last_x = Math.floor(last_pos_x);
+                    var floored_last_y = Math.floor(last_pos_y);
+                    var floored_last_z = Math.floor(last_pos_z);
+                    if (!(floored_last_x == Math.floor(this.position.x) && floored_last_z == Math.floor(this.position.z) && (floored_last_y == Math.floor(this.position.y) || floored_last_y == Math.floor(this.position.y + 1)))){
+                        if (Game.world.world_type == WorldType.Client)
+                                Game.world.SetBlock(last_pos_x, last_pos_y, last_pos_z, id);
+                            else
+                                Networking.SendPacket("SetBlock", [last_pos_x, last_pos_y, last_pos_z, id]);
+                        break;
+                    }
+                }
             }
+
+            last_pos_x = pos_x;
+            last_pos_y = pos_y;
+            last_pos_z = pos_z;
             reach += increment;
         }
     }
