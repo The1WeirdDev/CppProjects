@@ -284,7 +284,7 @@ class Chunk {
                 }
             }
         }
-        return 0;
+        return 1;
     }
     SetBlock(x, y, z, id) {
         if (Chunk.IsBlockInChunk(x, y, z))

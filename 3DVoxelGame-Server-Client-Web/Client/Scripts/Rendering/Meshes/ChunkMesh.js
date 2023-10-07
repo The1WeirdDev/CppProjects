@@ -53,7 +53,7 @@ class ChunkMesh extends Mesh {
         gl.bindVertexArray(this.vao_id);
         gl.enableVertexAttribArray(0);
         gl.enableVertexAttribArray(1);
-
+        //gl.drawElements(gl.LINES, this.index_count, gl.UNSIGNED_SHORT, 0);
         gl.drawElements(gl.TRIANGLES, this.index_count, gl.UNSIGNED_SHORT, 0);
     }
 

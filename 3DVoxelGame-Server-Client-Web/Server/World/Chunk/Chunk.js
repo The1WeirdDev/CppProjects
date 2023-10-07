@@ -26,8 +26,8 @@ class Chunk {
             for (var z = 0; z < Chunk.chunk_width; z++) {
                 var global_block_x = x + global_x;
                 var global_block_z = z + global_z;
-                var perlin = this.world.simplex.noise((global_block_x + 0.25) / 20, (global_block_z + 0.25) / 20);
-                var height = Math.floor(perlin * 10) + 50;
+                var perlin = this.world.simplex.noise((global_block_x + 0.25) / 80, (global_block_z + 0.25) / 80);
+                var height = Math.floor(perlin * 30) + 50;
 
                 for (var y = 0; y < height; y++) {
                     if(y < height - 1)

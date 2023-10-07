@@ -3,7 +3,9 @@ class LocalPlayer extends Entity {
     velocity = 0;
     gravity = -20.81;
 
-    speed = 10;
+    speed = 4.5;
+    running_speed_multiplier = 1.3;
+    movement_multiplier = 1.0;
 
     is_grounded = false;
 
@@ -109,21 +111,29 @@ class LocalPlayer extends Entity {
         this.movement_direction.x = 0;
         this.movement_direction.y = 0;
 
+        this.movement_multiplier = 1.0;
+
+        if (Keyboard.IsKeyDown(16)) {
+            this.movement_multiplier = this.running_speed_multiplier;
+        }
+
+        var movement_amount = this.speed * this.movement_multiplier * Time.delta_time;
+
         if (Keyboard.IsKeyDown(83)) {
-            this.movement_direction.x -= Math.sin(Mathf.ToRadians(this.rotation.y)) * this.speed * Time.delta_time;
-            this.movement_direction.y += Math.cos(Mathf.ToRadians(this.rotation.y)) * this.speed * Time.delta_time;
+            this.movement_direction.x -= Math.sin(Mathf.ToRadians(this.rotation.y)) * movement_amount;
+            this.movement_direction.y += Math.cos(Mathf.ToRadians(this.rotation.y)) * movement_amount;
         }
         if (Keyboard.IsKeyDown(87)) {
-            this.movement_direction.x += Math.sin(Mathf.ToRadians(this.rotation.y)) * this.speed * Time.delta_time;
-            this.movement_direction.y -= Math.cos(Mathf.ToRadians(this.rotation.y)) * this.speed * Time.delta_time;
+            this.movement_direction.x += Math.sin(Mathf.ToRadians(this.rotation.y)) * movement_amount;
+            this.movement_direction.y -= Math.cos(Mathf.ToRadians(this.rotation.y)) * movement_amount;
         }
         if (Keyboard.IsKeyDown(65)) {
-            this.movement_direction.x += Math.sin(Mathf.ToRadians(this.rotation.y - 90)) * this.speed * Time.delta_time;
-            this.movement_direction.y -= Math.cos(Mathf.ToRadians(this.rotation.y - 90)) * this.speed * Time.delta_time;
-        }
-        if (Keyboard.IsKeyDown(68)) {
-            this.movement_direction.x += Math.sin(Mathf.ToRadians(this.rotation.y + 90)) * this.speed * Time.delta_time;
-            this.movement_direction.y -= Math.cos(Mathf.ToRadians(this.rotation.y + 90)) * this.speed * Time.delta_time;
+            this.movement_direction.x += Math.sin(Mathf.ToRadians(this.rotation.y - 90)) * movement_amount;
+            this.movement_direction.y -= Math.cos(Mathf.ToRadians(this.rotation.y - 90)) * movement_amount;
+        }                                                                                  
+        if (Keyboard.IsKeyDown(68)) {                                                      
+            this.movement_direction.x += Math.sin(Mathf.ToRadians(this.rotation.y + 90)) * movement_amount;
+            this.movement_direction.y -= Math.cos(Mathf.ToRadians(this.rotation.y + 90)) * movement_amount;
         }
 
         this.velocity += this.gravity * Time.delta_time;
