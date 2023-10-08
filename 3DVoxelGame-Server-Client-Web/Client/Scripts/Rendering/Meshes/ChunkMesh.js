@@ -26,11 +26,11 @@ class ChunkMesh extends Mesh {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.tbo_id);
         gl.bufferData(
             gl.ARRAY_BUFFER,
-            new Float32Array(texture_coords),
+            new Int8Array(texture_coords),
             gl.STATIC_DRAW
         );
         gl.enableVertexAttribArray(1);
-        gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(1, 2, gl.UNSIGNED_BYTE, false, 0, 0);
 
         //Indices
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ebo_id);
@@ -44,6 +44,42 @@ class ChunkMesh extends Mesh {
 
         this.index_count = indices.length;
         this.created = true;
+    }
+
+    ReCreate(vertices, texture_coords, indices) {
+        gl.bindVertexArray(this.vao_id);
+
+        //Vertices
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo_id);
+        gl.bufferData(
+            gl.ARRAY_BUFFER,
+            new Int8Array(vertices),//Int8Array
+            gl.STATIC_DRAW
+        );
+        gl.enableVertexAttribArray(0);
+        gl.vertexAttribPointer(0, 3, gl.UNSIGNED_BYTE, false, 0, 0);
+
+        //Texture Coords
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.tbo_id);
+        gl.bufferData(
+            gl.ARRAY_BUFFER,
+            new Int8Array(texture_coords),
+            gl.STATIC_DRAW
+        );
+        gl.enableVertexAttribArray(1);
+        gl.vertexAttribPointer(1, 2, gl.UNSIGNED_BYTE, false, 0, 0);
+
+        //Indices
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ebo_id);
+        gl.bufferData(
+            gl.ELEMENT_ARRAY_BUFFER,
+            new Uint16Array(indices),
+            gl.STATIC_DRAW
+        );
+
+        gl.bindVertexArray(null);
+
+        this.index_count = indices.length;
     }
 
     Draw() {

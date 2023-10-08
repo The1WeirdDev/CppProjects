@@ -31,11 +31,15 @@ class Network {
 
         socket.on("SetBlock", (x, y, z, id) => {
             var chunk_x = Math.floor(x / Chunk.chunk_width);
+            var block_y = Math.floor(y);
             var chunk_z = Math.floor(z / Chunk.chunk_width);
+
             var chunk = this.world.GetChunk(chunk_x, chunk_z);
             if (chunk) {
-                this.world.SetBlock(x, y, z, id);
-                Network.Broadcast("ReceivedChunkData", [chunk_x, chunk_z, chunk.block_data]);
+                if (block_y >= 1) {
+                    this.world.SetBlock(x, block_y, z, id);
+                    Network.Broadcast("ReceivedChunkData", [chunk_x, chunk_z, chunk.block_data]);
+                }
             }
         });
 

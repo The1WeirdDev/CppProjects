@@ -16,7 +16,7 @@ class Frustom{
     }
 
     static IsChunkInsideViewFrustom(x, z, matrix) {
-        var y = Game.player.position.y;
+        var y = 0;// Game.player.position.y;
         return this.IsPointXZInsideViewFrustom(x, y, z, matrix) || this.IsPointXZInsideViewFrustom(x + Chunk.chunk_width, y, z, matrix) ||
             this.IsPointXZInsideViewFrustom(x, y, z + Chunk.chunk_width, matrix) || this.IsPointXZInsideViewFrustom(x + Chunk.chunk_width, y, z + Chunk.chunk_width, matrix);
     }

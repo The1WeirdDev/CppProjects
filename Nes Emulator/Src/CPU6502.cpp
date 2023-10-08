@@ -49,6 +49,12 @@ void CPU6502::SetFlag(uint8_t flag, bool set) {
 }
 
 void CPU6502::InstructionAND(AddressingMode addr_mode) {
+	uint8_t arg1;
+	uint8_t arg2;
+	uint8_t low;
+	uint8_t high;
+	uint16_t addr;
+
 	//ANDS the accumulator
 	switch (addr_mode) {
 	case AddressingMode::ZeroPageX:
@@ -64,33 +70,33 @@ void CPU6502::InstructionAND(AddressingMode addr_mode) {
 		pc += 2;
 		break;
 	case AddressingMode::Absolute:
-		uint8_t low = bus->GetRam(pc + 1);
-		uint8_t high = bus->GetRam(pc + 2);
-		uint16_t addr = (high << 8) | low;
+		low = bus->GetRam(pc + 1);
+		high = bus->GetRam(pc + 2);
+		addr = (high << 8) | low;
 		a &= bus->GetRam(addr);
 		pc += 3;
 		break;
 	case AddressingMode::AbsoluteX:
-		uint8_t low = bus->GetRam(pc + 1);
-		uint8_t high = bus->GetRam(pc + 2);
-		uint16_t addr = (high << 8) | low;
+		low = bus->GetRam(pc + 1);
+		high = bus->GetRam(pc + 2);
+		addr = (high << 8) | low;
 		a &= bus->GetRam(addr + x + GetFlag(Flags::C));
 		pc += 3;
 		break;
 	case AddressingMode::AbsoluteY:
-		uint8_t low = bus->GetRam(pc + 1);
-		uint8_t high = bus->GetRam(pc + 2);
-		uint16_t addr = (high << 8) | low;
+		low = bus->GetRam(pc + 1);
+		high = bus->GetRam(pc + 2);
+		addr = (high << 8) | low;
 		a &= bus->GetRam(addr + y + GetFlag(Flags::C));
 		pc += 3;
 		break;
 	case AddressingMode::IndexedIndirectX:
-		uint8_t arg1 = bus->GetRam(pc + 1) + x;
+		arg1 = bus->GetRam(pc + 1) + x;
 		a &= bus->GetRam(bus->GetRam(arg1 % 256) + bus->GetRam((arg1 + 1) % 256) * 256);
 		pc += 2;
 		break;
 	case AddressingMode::IndirectIndexedY:
-		uint8_t arg1 = bus->GetRam(pc + 1);
+		arg1 = bus->GetRam(pc + 1);
 		a &= bus->GetRam(bus->GetRam((arg1) % 256) + bus->GetRam((arg1 + x + 1) % 256) * 256);
 		pc += 2;
 		break;
@@ -102,7 +108,62 @@ void CPU6502::InstructionAND(AddressingMode addr_mode) {
 	SetFlag(Flags::Z, a == 0);
 }
 void CPU6502::InstructionLDA(AddressingMode addr_mode) {
+	uint8_t arg1;
+	uint8_t arg2;
+	uint8_t low;
+	uint8_t high;
+	uint16_t addr;
 
+	switch (addr_mode) {
+	case AddressingMode::ZeroPageX:
+		a = bus->GetRam((bus->GetRam(pc + 1) + x) % 256);
+		pc += 2;
+		break;
+	case AddressingMode::ZeroPageY:
+		a = bus->GetRam((bus->GetRam(pc + 1) + y) % 256);
+		pc += 2;
+		break;
+	case AddressingMode::Immediate:
+		a = bus->GetRam(bus->GetRam(pc + 1));
+		pc += 2;
+		break;
+	case AddressingMode::Absolute:
+		low = bus->GetRam(pc + 1);
+		high = bus->GetRam(pc + 2);
+		addr = (high << 8) | low;
+		a = bus->GetRam(addr);
+		pc += 3;
+		break;
+	case AddressingMode::AbsoluteX:
+		low = bus->GetRam(pc + 1);
+		high = bus->GetRam(pc + 2);
+		addr = (high << 8) | low;
+		a = bus->GetRam(addr + x + GetFlag(Flags::C));
+		pc += 3;
+		break;
+	case AddressingMode::AbsoluteY:
+		low = bus->GetRam(pc + 1);
+		high = bus->GetRam(pc + 2);
+		addr = (high << 8) | low;
+		a = bus->GetRam(addr + y + GetFlag(Flags::C));
+		pc += 3;
+		break;
+	case AddressingMode::IndexedIndirectX:
+		arg1 = bus->GetRam(pc + 1) + x;
+		a = bus->GetRam(bus->GetRam(arg1 % 256) + bus->GetRam((arg1 + 1) % 256) * 256);
+		pc += 2;
+		break;
+	case AddressingMode::IndirectIndexedY:
+		arg1 = bus->GetRam(pc + 1);
+		a = bus->GetRam(bus->GetRam((arg1) % 256) + bus->GetRam((arg1 + x + 1) % 256) * 256);
+		pc += 2;
+		break;
+	default:
+		printf("(LDA) Called with invalid addressing mode\n");
+	}
+
+	SetFlag(Flags::N, a & 0b10000000);
+	SetFlag(Flags::Z, a == 0);
 }
 void CPU6502::InstructionTAX(AddressingMode addr_mode) {
 	x = a;
@@ -132,5 +193,5 @@ void CPU6502::InstructionXXX(AddressingMode addr_mode) {
 void CPU6502::Clock() {
 	opcode = bus->GetRam(pc);
 	
-	//(this->*instructions[opcode])(AddressingMode::None);
+	(this->*instructions[opcode].func)(instructions[opcode].mode);
 }

@@ -18,12 +18,12 @@ enum AddressingMode {
 };
 class Bus;
 
-struct Instruction {
-	void (CPU6502::*func)(AddressingMode) = nullptr;
-	AddressingMode mode;
-};
 class CPU6502{
 public:
+	struct Instruction {
+		void (CPU6502::* func)(AddressingMode) = nullptr;
+		AddressingMode mode;
+	};
 	void SetBus(Bus* bus);
 
 	void Reset();

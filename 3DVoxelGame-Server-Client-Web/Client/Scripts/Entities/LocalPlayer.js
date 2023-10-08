@@ -73,25 +73,26 @@ class LocalPlayer extends Entity {
             var pos_z = this.position.z - ((Math.cos(pitch) * Math.cos(yaw)) * reach);
 
             //Checking if block is there
-            var block = Game.world.GetBlock(pos_x, pos_y, pos_z);
-            if (destroy) {
-                if (block != 0) {
+            var block_id = Game.world.GetBlock(pos_x, pos_y, pos_z);
+            var block = Game.world.GetBlockFromId(block_id);
+
+            if (block.is_renderable && pos_y >= 1) {
+                if (destroy && block.is_breakable) {
                     if (Game.world.world_type == WorldType.Client)
                         Game.world.SetBlock(pos_x, pos_y, pos_z, id);
                     else
                         Networking.SendPacket("SetBlock", [pos_x, pos_y, pos_z, id]);
                     break;
-                }
-            } else {
-                if (block != 0) {
+                } else {
+                    //We floor the blocks test position and the players to make sure it isnt placing blocks inside itself
                     var floored_last_x = Math.floor(last_pos_x);
                     var floored_last_y = Math.floor(last_pos_y);
                     var floored_last_z = Math.floor(last_pos_z);
-                    if (!(floored_last_x == Math.floor(this.position.x) && floored_last_z == Math.floor(this.position.z) && (floored_last_y == Math.floor(this.position.y) || floored_last_y == Math.floor(this.position.y + 1)))){
+                    if (!(floored_last_x == Math.floor(this.position.x) && floored_last_z == Math.floor(this.position.z) && (floored_last_y == Math.floor(this.position.y) || floored_last_y == Math.floor(this.position.y + 1)))) {
                         if (Game.world.world_type == WorldType.Client)
-                                Game.world.SetBlock(last_pos_x, last_pos_y, last_pos_z, id);
-                            else
-                                Networking.SendPacket("SetBlock", [last_pos_x, last_pos_y, last_pos_z, id]);
+                            Game.world.SetBlock(last_pos_x, last_pos_y, last_pos_z, id);
+                        else
+                            Networking.SendPacket("SetBlock", [last_pos_x, last_pos_y, last_pos_z, id]);
                         break;
                     }
                 }
@@ -235,13 +236,14 @@ class LocalPlayer extends Entity {
         var closest_up = 1;
         var closest_down = -1;
         var movement_velocity = this.velocity * Time.delta_time;
-        if (this.velocity != 0) {
+        if (this.velocity > 0) {
             for (var y = floored_y; y < floored_y + 5; y++) {
                 if (Game.world.GetBlock(this.position.x, y, this.position.z)) {
-                    closest_up = y - this.position.y - movement_velocity - 0.1;
+                    closest_up = y - this.position.y - movement_velocity - 0.1 - 1;
                     break;
                 }
             }
+        } else {
             for (var y = floored_y; y > floored_y - 5; y--) {
                 if (Game.world.GetBlock(this.position.x, y, this.position.z)) {
                     closest_down = y - movement_velocity - this.position.y + 1 + height;
@@ -298,17 +300,18 @@ class LocalPlayer extends Entity {
         var yaw = Mathf.ToRadians(this.rotation.y);
         var pitch = Mathf.ToRadians(this.rotation.x);
 
-        var offset_x = ((Math.cos(pitch) * Math.sin(yaw)) * 60);
-        var offset_y = (Math.sin(pitch) * 60);
-        var offset_z = ((Math.cos(pitch) * Math.cos(yaw)) * 60);
-
+        //TODO : Learn more about project and clip matrices to not have frustom culling be so bad
+        var offset_x = (-Math.sin(yaw) * 100);
+        var offset_z = (Math.cos(yaw) * 100);
+        //console.log(this.position.x + " " + offset_x);
         mat4.rotate(this.view_matrix, this.view_matrix, Mathf.ToRadians(this.rotation.x), [1, 0, 0]);
-        mat4.rotate(this.view_matrix_frustom, this.view_matrix_frustom, Mathf.ToRadians(this.rotation.x), [1, 0, 0]);
+        //mat4.rotate(this.view_matrix_frustom, this.view_matrix_frustom, Mathf.ToRadians(this.rotation.x), [1, 0, 0]);
+
         mat4.rotate(this.view_matrix, this.view_matrix, Mathf.ToRadians(this.rotation.y), [0, 1, 0]);
         mat4.rotate(this.view_matrix_frustom, this.view_matrix_frustom, Mathf.ToRadians(this.rotation.y), [0, 1, 0]);
 
         mat4.translate(this.view_matrix, this.view_matrix, [-this.position.x, -this.position.y - 1, -this.position.z]);
-        mat4.translate(this.view_matrix_frustom, this.view_matrix_frustom, [-(this.position.x - offset_x), -(this.position.y + 1 + offset_y), -(this.position.z + offset_z)]);
+        mat4.translate(this.view_matrix_frustom, this.view_matrix_frustom, [-(this.position.x + offset_x), 0, -(this.position.z + offset_z)]);
         //this.view_matrix = matrix;
 
         //Game.chunk_shader.Start();

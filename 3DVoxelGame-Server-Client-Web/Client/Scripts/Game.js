@@ -68,6 +68,8 @@ class Game {
 
         Game.chunk_shader.Start();
         Game.chunk_shader.LoadProjectionMatrix(Game.projection_matrix);
+
+        Game.world.CreateFrustomMatrix();
         //Game.chunk_shader.Stop();
 
         //Game.non_local_player_shader.Start();

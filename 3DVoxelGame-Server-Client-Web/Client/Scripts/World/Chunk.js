@@ -101,6 +101,7 @@ class Chunk {
                 }
             }
         }
+
         this.created_mesh_data = true;
     }
 
@@ -229,9 +230,19 @@ class Chunk {
             }
         }
 
-        var x_pos = texture * this.world.texture_size;
-        var y_pos = Math.floor(texture / 16) * this.world.texture_size;
+        //var x_pos = texture * this.world.texture_size;
+        var y_level = Math.floor(texture / 16);
+        //var y_pos = y_level * this.world.texture_size;
 
+        this.texture_coords.push(texture);
+        this.texture_coords.push(y_level);
+        this.texture_coords.push(texture);
+        this.texture_coords.push(y_level + 1);
+        this.texture_coords.push(texture + 1);
+        this.texture_coords.push(y_level);
+        this.texture_coords.push(texture + 1);
+        this.texture_coords.push(y_level + 1);
+        /*
         this.texture_coords.push(x_pos);
         this.texture_coords.push(y_pos);
         this.texture_coords.push(x_pos);
@@ -240,6 +251,7 @@ class Chunk {
         this.texture_coords.push(y_pos);
         this.texture_coords.push(x_pos + this.world.texture_size);
         this.texture_coords.push(y_pos + this.world.texture_size);
+        */
 
         this.indices.push(this.vertex_index + 0);
         this.indices.push(this.vertex_index + 1);
@@ -255,6 +267,8 @@ class Chunk {
     }
 
     Draw() {
+        //if (!this.mesh.created)
+        //    return;
         Game.chunk_shader.LoadMatrix4x4(Game.chunk_shader.transformation_matrix_location, this.transformation_matrix);
         this.mesh.Draw();
     }

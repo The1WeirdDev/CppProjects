@@ -14,11 +14,11 @@ class ServerWorld extends World {
         this.chunks_meshes_to_create = new Array();
     }
     Update() {
-
+        var distance = 10;
         var chunk_x = Math.floor(Game.player.position.x / Chunk.chunk_width);
         var chunk_z = Math.floor(Game.player.position.z / Chunk.chunk_width);
-        for (var x = chunk_x - 10; x <= chunk_x + 10; x++) {
-            for (var z = chunk_z - 10; z <= chunk_z + 10; z++) {
+        for (var x = chunk_x - distance; x <= chunk_x + distance; x++) {
+            for (var z = chunk_z - distance; z <= chunk_z + distance; z++) {
                 var chunk = this.GetChunk(x, z);
                 if (!chunk) {
                     chunk = this.CreateChunk(x, z);
@@ -28,6 +28,7 @@ class ServerWorld extends World {
         }
         this.CreateMeshes();
     }
+
     CreateMeshes() {
         for (var i = 0; i < this.chunks_meshes_to_create.length; i++) {
             this.chunks_meshes_to_create[i].CreateMeshData();
@@ -43,21 +44,21 @@ class ServerWorld extends World {
         Game.chunk_shader.Start();
 
         var m = mat4.create();
-        var p = mat4.create();
-        p = mat4.perspective(p, Mathf.ToRadians(85), Display.GetAspectRatio(), 0.001, 5000);
-        mat4.multiply(m, p, Game.player.view_matrix_frustom);
+        mat4.multiply(m, this.frustom_matrix, Game.player.view_matrix_frustom);
 
         var chunk_x = Math.floor(Game.player.position.x / Chunk.chunk_width);
         var chunk_z = Math.floor(Game.player.position.z / Chunk.chunk_width);
-        var render_distance = 4;
-        var sub = 4;
+        var render_distance = 2;
+        var sub = 8;
 
         for (var x = -render_distance; x <= render_distance; x++) {
             for (var z = -render_distance; z <= render_distance; z++) {
                 var sub_x = chunk_x + (x * sub);
                 var sub_z = chunk_z + (z * sub);
 
-                if (Frustom.IsChunkInsideViewFrustom(sub_x * Chunk.chunk_width, sub_z * Chunk.chunk_width, m)) {
+                var mag = Vector3.GetMagnitudeOfVectors(new Vector3(Game.player.position.x, 0, Game.player.position.z), new Vector3(sub_x * Chunk.chunk_width, 0, sub_z * Chunk.chunk_width));
+                
+                if (Frustom.IsChunkInsideViewFrustom(sub_x * Chunk.chunk_width, sub_z * Chunk.chunk_width, m) || mag <= 128) {
                     for (var s_x = 0; s_x < sub; s_x++) {
                         for (var s_z = 0; s_z < sub; s_z++) {
                             var global_x = sub_x + s_x;

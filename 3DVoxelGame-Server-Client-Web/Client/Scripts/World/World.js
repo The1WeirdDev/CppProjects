@@ -15,9 +15,10 @@ class World {
 
     constructor(type) {
         this.world_type = type;
-        this.AddBlock(new Block("Air", false, 0, 0, 0, 0, 0, 0));
-        this.AddBlock(new Block("Grass", false, 0, 2, 1, 1, 1, 1));
-        this.AddBlock(new Block("Stone", false, 3, 3, 3, 3, 3, 3));
+        this.AddBlock(new Block("Air", false, false, 0, 0, 0, 0, 0, 0));
+        this.AddBlock(new Block("Grass", true, true, 0, 2, 1, 1, 1, 1));
+        this.AddBlock(new Block("Stone", true, true, 3, 3, 3, 3, 3, 3));
+        this.AddBlock(new Block("Bedrock", true, false, 4, 4, 4, 4, 4, 4));
     }
 
     AddBlock(block) {
@@ -26,5 +27,10 @@ class World {
 
     GetBlockFromId(id) {
         return this.blocks[id];
+    }
+
+    CreateFrustomMatrix() {
+        this.frustom_matrix = mat4.create();
+        this.frustom_matrix = mat4.perspective(this.frustom_matrix, Mathf.ToRadians(160), Display.GetAspectRatio(), 0.001, 1000);
     }
 }

@@ -1,6 +1,7 @@
 class Block {
     is_renderable = true;
     name = "";
+    is_breakable = true;
 
     top_texture = 0;
     bottom_texture = 0;
@@ -9,9 +10,12 @@ class Block {
     front_texture = 0;
     back_texture = 0;
 
-    constructor(name, is_renderable, top_texture, bottom_texture, left_texture, right_texture, front_texture, back_texture) {
+    constructor(name, is_renderable, is_breakable, top_texture, bottom_texture, left_texture, right_texture, front_texture, back_texture) {
         this.name = name;
         this.is_renderable = is_renderable;
+        this.is_breakable = is_breakable;
+
+        //Textures
         this.top_texture = top_texture;
         this.bottom_texture = bottom_texture;
         this.left_texture = left_texture;
