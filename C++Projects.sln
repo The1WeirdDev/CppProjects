@@ -13,6 +13,12 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "3DVoxelGame-Server-Client-W
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nes Emulator", "Nes Emulator\Nes Emulator.vcxproj", "{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RougeLike-Client", "RougeLike-Client\RougeLike-Client.vcxproj", "{E375C0D1-5D6E-4026-A47C-C58A939D2442}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RougeLike-Server", "RougeLike-Server\RougeLike-Server.vcxproj", "{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoxelGame-Client", "VoxelGame-Client\VoxelGame-Client.vcxproj", "{A3A3F792-1B92-4041-99E0-F756EFE4C78D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +89,42 @@ Global
 		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Release|x64.Build.0 = Release|x64
 		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Release|x86.ActiveCfg = Release|Win32
 		{21D4C7F9-AEF3-45EF-AD3C-F68A55354A6F}.Release|x86.Build.0 = Release|Win32
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Debug|Any CPU.Build.0 = Debug|x64
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Debug|x64.ActiveCfg = Debug|x64
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Debug|x64.Build.0 = Debug|x64
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Debug|x86.ActiveCfg = Debug|Win32
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Debug|x86.Build.0 = Debug|Win32
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Release|Any CPU.ActiveCfg = Release|x64
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Release|Any CPU.Build.0 = Release|x64
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Release|x64.ActiveCfg = Release|x64
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Release|x64.Build.0 = Release|x64
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Release|x86.ActiveCfg = Release|Win32
+		{E375C0D1-5D6E-4026-A47C-C58A939D2442}.Release|x86.Build.0 = Release|Win32
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Debug|Any CPU.Build.0 = Debug|x64
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Debug|x64.ActiveCfg = Debug|x64
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Debug|x64.Build.0 = Debug|x64
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Debug|x86.ActiveCfg = Debug|Win32
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Debug|x86.Build.0 = Debug|Win32
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Release|Any CPU.ActiveCfg = Release|x64
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Release|Any CPU.Build.0 = Release|x64
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Release|x64.ActiveCfg = Release|x64
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Release|x64.Build.0 = Release|x64
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Release|x86.ActiveCfg = Release|Win32
+		{D00FCFE1-C87F-4354-95BB-4D3A9DE2CECF}.Release|x86.Build.0 = Release|Win32
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Debug|Any CPU.Build.0 = Debug|x64
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Debug|x64.ActiveCfg = Debug|x64
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Debug|x64.Build.0 = Debug|x64
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Debug|x86.ActiveCfg = Debug|Win32
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Debug|x86.Build.0 = Debug|Win32
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Release|Any CPU.ActiveCfg = Release|x64
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Release|Any CPU.Build.0 = Release|x64
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Release|x64.ActiveCfg = Release|x64
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Release|x64.Build.0 = Release|x64
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Release|x86.ActiveCfg = Release|Win32
+		{A3A3F792-1B92-4041-99E0-F756EFE4C78D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
